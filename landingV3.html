@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MODX: Claims processed. Revenue understood.</title>
+<meta name="description" content="MODX processes 837 healthcare claims, reconciles 835 remittances, and turns the results into revenue analytics for providers and billing teams.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,300..800&family=Google+Sans+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme:light;
+    --bg:#F8F9FA;--panel:#FFFFFF;--fg:#0E1311;--fg2:#5E665F;--line:rgba(14,19,17,.10);
+    --green:#088B59;--green-ink:#07714A;--teal:#2EC4B6;--orange:#FF9F1C;--mint:#E4F3EB;--dark:#0B0F0D;
+    --sun:none;--moon:block;
+  }
+  [data-theme="dark"]{
+    color-scheme:dark;
+    --bg:#0B0F0D;--panel:#121715;--fg:#F1F3F0;--fg2:#97A19B;--line:rgba(241,243,240,.10);
+    --green:#2ED390;--green-ink:#2ED390;--mint:rgba(46,211,144,.12);--dark:#060908;
+    --sun:block;--moon:none;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--bg);color:var(--fg);
+    font-family:"Google Sans Flex","Google Sans","Product Sans",system-ui,sans-serif;
+    font-optical-sizing:auto;-webkit-font-smoothing:antialiased;
+    transition:background .3s,color .3s;
+  }
+  a{color:var(--green-ink);text-decoration:none}
+  a:hover{color:var(--teal)}
+  h1,h2{margin:0}
+  .wrap{max-width:1320px;margin:0 auto;padding-left:28px;padding-right:28px}
+  .mono{font-family:"Google Sans Code",monospace}
+  @keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+  @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+  [data-reveal]{opacity:0;transform:translateY(24px);transition:opacity .8s,transform .8s}
+  [data-reveal].is-visible{opacity:1;transform:none}
+
+  /* ---------- header ---------- */
+  header.site-header{position:fixed;inset:0 0 auto 0;z-index:60;padding:18px 28px}
+  header.site-header nav{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:10px;color:var(--fg);font-weight:600;font-size:16px;white-space:nowrap;
+    padding:8px 12px 8px 8px;border-radius:999px;background:var(--panel);border:1px solid var(--line)}
+  .brand .mark{width:26px;height:26px;border-radius:50%;background:var(--green);display:grid;place-items:center;color:#fff;font-size:11px}
+  .nav-links{margin-left:auto;display:flex;gap:2px;padding:4px;border-radius:999px;background:var(--panel);border:1px solid var(--line);
+    font-size:13px;white-space:nowrap;backdrop-filter:blur(12px)}
+  .nav-links a{color:var(--fg2);padding:7px 14px;border-radius:999px}
+  .nav-links a:hover{background:var(--bg);color:var(--fg)}
+  .nav-actions{display:flex;gap:8px}
+  .icon-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--fg);cursor:pointer;display:grid;place-items:center}
+  .icon-btn:hover{border-color:var(--green)}
+  .icon-btn svg{width:15px;height:15px}
+  .btn-dark{display:inline-flex;align-items:center;gap:8px;background:var(--fg);color:var(--bg);padding:0 18px;height:40px;border-radius:999px;font-weight:500;font-size:13px;white-space:nowrap}
+  .btn-dark:hover{background:var(--green);color:#fff}
+  .nav-toggle{display:none;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--fg);cursor:pointer;align-items:center;justify-content:center}
+  .nav-toggle svg{width:18px;height:18px}
+  .nav-links-mobile{display:none}
+
+  /* ---------- hero ---------- */
+  #top{position:relative;height:100vh;min-height:680px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end}
+  #hero-canvas{position:absolute;inset:0;z-index:0;width:100%;height:100%;display:block}
+  .hero-fade{position:absolute;inset:0;z-index:1;background:linear-gradient(to top,var(--bg) 0%,transparent 45%);pointer-events:none}
+  .hero-inner{position:relative;z-index:2;padding:0 28px 40px;display:grid;grid-template-columns:1fr auto;gap:40px;align-items:end;animation:rise 1s cubic-bezier(.2,.7,.2,1) both}
+  .hero-eyebrow{display:flex;align-items:center;gap:12px;font-family:"Google Sans Code",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg2)}
+  .hero-eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:blink 2s infinite}
+  .hero-left{display:flex;flex-direction:column;gap:22px}
+  .hero-left h1{font-size:clamp(64px,10.5vw,168px);line-height:.9;letter-spacing:-.05em;font-weight:500;text-wrap:balance}
+  .hero-left h1 span{color:var(--green)}
+  .hero-right{display:flex;flex-direction:column;gap:18px;max-width:340px;padding-bottom:10px}
+  .hero-right p{margin:0;font-size:16px;line-height:1.55;color:var(--fg2);text-wrap:pretty}
+  .hero-ctas{display:flex;gap:8px;flex-wrap:wrap}
+  .hero-cta-primary{display:inline-flex;align-items:center;gap:8px;background:var(--green);color:#fff;padding:14px 22px;border-radius:999px;font-weight:500;font-size:14px;white-space:nowrap}
+  .hero-cta-primary:hover{background:var(--fg);color:var(--bg)}
+  .hero-cta-secondary{display:inline-flex;align-items:center;padding:14px 20px;border-radius:999px;border:1px solid var(--line);color:var(--fg);font-size:14px;white-space:nowrap;background:var(--panel)}
+  .hero-cta-secondary:hover{border-color:var(--fg);color:var(--fg)}
+
+  .marquee{position:relative;z-index:2;border-top:1px solid var(--line);overflow:hidden;padding:14px 0;
+    font-family:"Google Sans Code",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg2);white-space:nowrap}
+  .marquee-track{display:inline-flex;gap:0;animation:marquee 40s linear infinite;width:max-content}
+  .marquee-set{display:inline-flex;gap:48px;padding-right:48px}
+  .marquee-set .accent{color:var(--green-ink)}
+
+  /* ---------- manifesto ---------- */
+  #manifesto{padding:140px 0 0}
+  .split-head{display:grid;grid-template-columns:200px 1fr;gap:40px}
+  .split-head .eyebrow{font-family:"Google Sans Code",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg2);padding-top:14px}
+  .split-head h2{font-size:clamp(30px,3.8vw,56px);line-height:1.12;letter-spacing:-.03em;font-weight:400;text-wrap:pretty;max-width:1000px}
+  .split-head h2 .accent{color:var(--green-ink)}
+  .pillars-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:20px;overflow:hidden;margin-top:72px}
+  .pillar{background:var(--panel);padding:34px 32px 38px;display:flex;flex-direction:column;gap:56px}
+  .pillar .row{display:flex;justify-content:space-between;font-family:"Google Sans Code",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg2)}
+  .pillar .row span.tag{color:var(--green-ink)}
+  .pillar .title{font-size:24px;font-weight:500;letter-spacing:-.02em}
+  .pillar p{margin:12px 0 0;color:var(--fg2);font-size:14px;line-height:1.65;text-wrap:pretty}
+
+  /* ---------- sticky process ---------- */
+  #process{padding:160px 0 0}
+  .process-head{display:grid;grid-template-columns:200px 1fr;gap:40px;margin-bottom:64px}
+  .process-head .eyebrow{font-family:"Google Sans Code",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg2);padding-top:10px}
+  .process-head h2{font-size:clamp(30px,3.6vw,52px);line-height:1.06;letter-spacing:-.03em;font-weight:500;max-width:640px;text-wrap:balance}
+  .process-body{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+  .stage-list{display:flex;flex-direction:column}
+  .stage-block{min-height:70vh;display:flex;flex-direction:column;justify-content:center;gap:18px;padding:40px 0;border-top:1px solid var(--line);opacity:.35;transition:opacity .5s}
+  .stage-block.is-active{opacity:1}
+  .stage-block .n{font-family:"Google Sans Code",monospace;font-size:12px;letter-spacing:.1em;color:var(--green-ink)}
+  .stage-block .title{font-size:clamp(28px,3vw,44px);font-weight:500;letter-spacing:-.03em;line-height:1.08}
+  .stage-block p{margin:0;color:var(--fg2);font-size:16px;line-height:1.65;max-width:440px;text-wrap:pretty}
+  .chips{display:flex;gap:8px;flex-wrap:wrap}
+  .chips span{font-family:"Google Sans Code",monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:7px 12px;border-radius:999px;border:1px solid var(--line);color:var(--fg2);white-space:nowrap}
+
+  .stage-sticky{position:sticky;top:15vh;height:70vh;min-height:520px}
+  .stage-panel-outer{position:relative;height:100%;border-radius:24px;background:var(--dark);color:#fff;overflow:hidden;border:1px solid var(--line)}
+  .stage-glow{position:absolute;inset:0;background:radial-gradient(60% 50% at 70% 20%,rgba(46,211,144,.22),transparent 70%)}
+  .stage-topbar{position:absolute;left:24px;top:20px;right:24px;display:flex;justify-content:space-between;
+    font-family:"Google Sans Code",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.55)}
+  .stage-progress-track{position:absolute;left:24px;right:24px;top:56px;height:2px;background:rgba(255,255,255,.12);border-radius:2px}
+  .stage-progress-fill{height:100%;border-radius:2px;background:var(--green);transition:width .6s cubic-bezier(.2,.7,.2,1)}
+  .stage-panel{position:absolute;inset:88px 24px 24px;opacity:0;transform:translateY(24px);transition:opacity .6s,transform .6s;display:flex;flex-direction:column;gap:12px;font-size:13px}
+  .stage-panel.is-active{opacity:1;transform:translateY(0)}
+  .stage-panel.is-past{transform:translateY(-24px)}
+  .kv-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .kv-card{border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:6px}
+  .kv-card .lbl{color:rgba(255,255,255,.55);font-size:11px}
+  .kv-card .big{font-size:22px;font-weight:500}
+  .arch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-items:start;font-family:"Google Sans Code",monospace;font-size:12px}
+  .arch-card{border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:6px}
+  .arch-card.primary{border-color:rgba(46,211,144,.5)}
+  .arch-card .k{color:var(--green)}
+  .arch-card span.dim{color:rgba(255,255,255,.6)}
+  .arch-note{border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:12px;color:rgba(255,255,255,.7);line-height:1.7;font-family:"Google Sans Code",monospace;font-size:12px}
+  .sprint-list{display:flex;flex-direction:column;gap:8px}
+  .sprint-item{display:flex;justify-content:space-between;padding:12px 14px;border:1px solid rgba(255,255,255,.12);border-radius:10px}
+  .sprint-item.active-border{border-color:rgba(46,211,144,.5)}
+  .sprint-item .done{color:var(--green)}
+  .sprint-item .progress{color:var(--teal)}
+  .sprint-item.muted{color:rgba(255,255,255,.6)}
+  .launch-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .launch-stats .card{border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:14px}
+  .launch-stats .lbl{color:rgba(255,255,255,.55);font-size:11px}
+  .launch-stats .big{font-size:30px;font-weight:500;margin-top:6px}
+  .launch-stats .big.green{color:var(--green)}
+  .launch-note{border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:14px;color:rgba(255,255,255,.75);line-height:1.6}
+
+  /* ---------- services expanding list ---------- */
+  #services{padding:160px 0 0}
+  .services-head{display:grid;grid-template-columns:200px 1fr;gap:40px;margin-bottom:48px}
+  .services-head .eyebrow{font-family:"Google Sans Code",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg2);padding-top:10px}
+  .services-head .flex{display:flex;justify-content:space-between;align-items:end;gap:20px 32px;flex-wrap:wrap}
+  .services-head h2{font-size:clamp(30px,3.6vw,52px);line-height:1.06;letter-spacing:-.03em;font-weight:500;max-width:560px}
+  .services-head p{margin:0;color:var(--fg2);font-size:15px;max-width:320px}
+  .services-list{border-top:1px solid var(--line)}
+  .service-row{display:grid;grid-template-columns:120px 1fr 1fr auto;gap:32px;align-items:center;padding:26px 8px;
+    border-bottom:1px solid var(--line);color:var(--fg);background:transparent;transition:background .3s}
+  .service-row .n{font-family:"Google Sans Code",monospace;font-size:12px;color:var(--fg2)}
+  .service-row .title{font-size:clamp(22px,2.6vw,36px);font-weight:500;letter-spacing:-.025em}
+  .service-row .body{font-size:14px;color:var(--fg2);line-height:1.55;max-width:420px;opacity:1;transition:opacity .3s}
+  .service-row .arrow{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;color:var(--fg);background:transparent;transition:background .3s}
+  .service-row.is-hovered{background:var(--panel)}
+  .service-row.is-hovered .arrow{background:var(--green)}
+  .service-row.is-dimmed .body{opacity:.35}
+
+  /* ---------- product bento ---------- */
+  #product{margin:160px 0 0;background:var(--dark);color:#fff;padding:120px 0}
+  .product-inner{display:grid;grid-template-columns:200px 1fr;gap:40px}
+  .product-inner > .eyebrow{font-family:"Google Sans Code",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.5);padding-top:10px}
+  .product-head{display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:end}
+  .product-head h2{font-size:clamp(34px,4.4vw,68px);line-height:1;letter-spacing:-.04em;font-weight:500;text-wrap:balance}
+  .product-head h2 span{color:rgba(255,255,255,.45)}
+  .product-head p{margin:0;color:rgba(255,255,255,.7);font-size:15px;line-height:1.65}
+  .btn-demo{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#0B0F0D;padding:13px 22px;border-radius:999px;font-weight:500;font-size:14px;white-space:nowrap}
+  .btn-demo:hover{background:var(--green);color:#fff}
+  .spot-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:64px}
+  .spot-card{grid-column:span 1;position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:26px;
+    display:flex;flex-direction:column;justify-content:space-between;gap:24px;min-height:260px;background:rgba(255,255,255,.03)}
+  .spot-card.span2{grid-column:span 2}
+  .spot-glow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(360px circle at var(--mx,50%) var(--my,50%),rgba(46,211,144,.16),transparent 60%);opacity:var(--so,0);transition:opacity .3s}
+  .spot-card .head{position:relative;display:flex;flex-direction:column;gap:6px}
+  .spot-card .head .title{font-size:19px;font-weight:500}
+  .spot-card .head .desc{font-size:13px;color:rgba(255,255,255,.6);line-height:1.6}
+  .spot-note{position:relative;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px;font-size:12px;background:rgba(0,0,0,.3)}
+  .spot-note .who{color:var(--green);font-weight:500}
+  .spot-note .body{line-height:1.55;color:rgba(255,255,255,.85)}
+  .spot-note .actions{display:flex;gap:6px}
+  .spot-note .actions span{padding:6px 11px;border-radius:999px;font-size:11px}
+  .spot-note .actions span.solid{background:var(--green);color:#06251A;font-weight:600}
+  .spot-note .actions span.outline{border:1px solid rgba(255,255,255,.2)}
+  .spot-count{position:relative}
+  .spot-count .num{font-size:56px;font-weight:500;letter-spacing:-.04em;line-height:1}
+  .spot-count .num.green{color:var(--green)}
+  .spot-count .sub{font-size:12px;color:rgba(255,255,255,.55);margin-top:6px}
+  .spot-audit{position:relative;display:flex;flex-direction:column;gap:6px;font-size:12px;color:rgba(255,255,255,.75)}
+  .spot-audit .row{display:flex;justify-content:space-between;border-top:1px solid rgba(255,255,255,.12);padding-top:8px}
+  .spot-audit .row span.who{color:var(--green)}
+  .spot-list{position:relative;display:flex;flex-direction:column;gap:6px;font-size:13px}
+  .spot-list .row{display:flex;justify-content:space-between;padding:10px 0;border-top:1px solid rgba(255,255,255,.12)}
+  .spot-list .row span.due{color:var(--orange)}
+  .spot-list .row span.dim{color:rgba(255,255,255,.55)}
+  .loc-grid{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:12px}
+  .loc-grid .card{border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:12px}
+  .loc-grid .card .name{color:rgba(255,255,255,.55)}
+  .loc-grid .card .hours{margin-top:4px}
+
+  /* ---------- team ---------- */
+  #team{padding:160px 0 0}
+  .team-head{display:grid;grid-template-columns:200px 1fr;gap:40px;margin-bottom:56px}
+  .team-head .eyebrow{font-family:"Google Sans Code",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg2);padding-top:10px}
+  .team-head .flex{display:flex;justify-content:space-between;align-items:end;gap:20px 32px;flex-wrap:wrap}
+  .team-head h2{font-size:clamp(30px,3.6vw,52px);line-height:1.06;letter-spacing:-.03em;font-weight:500}
+  .team-head p{margin:0;color:var(--fg2);font-size:15px;max-width:320px}
+  .team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .team-card{display:flex;flex-direction:column;gap:14px}
+  .team-photo{aspect-ratio:4/5;border-radius:20px;overflow:hidden;background:var(--panel);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--fg2)}
+  .team-photo svg{opacity:.4}
+  .team-info{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:0 4px}
+  .team-info .name{font-size:16px;font-weight:500}
+  .team-info .role{font-size:13px;color:var(--fg2);margin-top:2px}
+  .team-info .idx{font-family:"Google Sans Code",monospace;font-size:11px;color:var(--green-ink)}
+
+  /* ---------- contact ---------- */
+  #contact{padding:160px 0 0}
+  .contact-card{border-radius:28px;background:var(--panel);border:1px solid var(--line);padding:64px;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+  .contact-left{display:flex;flex-direction:column;gap:22px}
+  .contact-left .eyebrow{font-family:"Google Sans Code",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg2)}
+  .contact-left h2{font-size:clamp(34px,4.2vw,60px);line-height:1.02;letter-spacing:-.035em;font-weight:500;text-wrap:balance}
+  .contact-left p{margin:0;color:var(--fg2);font-size:16px;line-height:1.6}
+  .contact-left .mailto{font-size:clamp(22px,2.4vw,30px);font-weight:500;letter-spacing:-.02em;color:var(--fg);text-decoration:underline;
+    text-decoration-color:var(--green);text-underline-offset:6px;text-decoration-thickness:2px}
+  .contact-left .mailto:hover{color:var(--green-ink)}
+  .contact-form{display:flex;flex-direction:column;gap:10px}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .contact-form input,.contact-form select,.contact-form textarea{
+    padding:14px 16px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--fg);font:inherit;font-size:14px;width:100%}
+  .contact-form textarea{resize:none}
+  .btn-send{padding:15px;border-radius:999px;border:0;background:var(--fg);color:var(--bg);font:inherit;font-weight:500;font-size:14px;cursor:pointer}
+  .btn-send:hover{background:var(--green);color:#fff}
+  .form-note{font-size:13px;color:var(--green-ink);display:none}
+  .form-note.is-visible{display:block}
+
+  /* ---------- footer ---------- */
+  footer{max-width:1320px;margin:0 auto;padding:24px 28px 0}
+  .footer-card{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:40px}
+  .footer-cols{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:40px;align-items:start}
+  .footer-brand{display:flex;flex-direction:column;gap:14px}
+  .footer-brand .logo{display:flex;align-items:center;gap:9px;font-weight:600;font-size:16px}
+  .footer-brand .logo .mark{width:24px;height:24px;border-radius:50%;background:var(--green);display:grid;place-items:center;color:#fff;font-size:11px;font-weight:700}
+  .footer-brand p{margin:0;color:var(--fg2);font-size:13px;line-height:1.6;max-width:320px}
+  .footer-socials{display:flex;gap:14px;color:var(--fg)}
+  .footer-socials a{color:var(--fg)}
+  .footer-col{display:flex;flex-direction:column;gap:10px;font-size:13px}
+  .footer-col span.head{font-weight:600;margin-bottom:4px}
+  .footer-col a{color:var(--fg2)}
+  .footer-bottom{margin-top:36px;padding-top:22px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--fg2)}
+  .footer-bottom .links{display:flex;gap:18px}
+  .footer-bottom .links a{color:var(--fg2);text-decoration:underline;text-underline-offset:3px}
+  .footer-wordmark{position:relative;height:clamp(110px,16vw,220px);overflow:hidden;margin-top:12px}
+  .footer-wordmark span{position:absolute;left:0;right:0;top:0;font-size:clamp(150px,24vw,340px);font-weight:600;letter-spacing:-.06em;line-height:.78;text-align:center;color:color-mix(in oklab,var(--fg) 5%,transparent);user-select:none;pointer-events:none}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:900px){
+    .nav-links{display:none}
+    .nav-toggle{display:flex}
+    .nav-links-mobile{display:none;position:absolute;top:70px;left:28px;right:28px;background:var(--panel);border:1px solid var(--line);
+      border-radius:16px;padding:10px;flex-direction:column;gap:2px}
+    .nav-links-mobile.is-open{display:flex}
+    .nav-links-mobile a{color:var(--fg2);padding:10px 12px;border-radius:10px}
+    .hero-inner{grid-template-columns:1fr}
+    .hero-right{max-width:none}
+    .split-head,.process-head,.services-head,.product-inner,.team-head{grid-template-columns:1fr}
+    .pillars-grid{grid-template-columns:1fr}
+    .process-body{grid-template-columns:1fr}
+    .stage-sticky{position:static;height:auto;margin-top:24px}
+    .stage-block{min-height:0}
+    .product-head{grid-template-columns:1fr}
+    .spot-grid{grid-template-columns:1fr 1fr}
+    .spot-card.span2{grid-column:span 2}
+    .team-grid{grid-template-columns:1fr 1fr}
+    .contact-card{grid-template-columns:1fr;padding:40px 28px}
+    .service-row{grid-template-columns:60px 1fr auto;gap:16px}
+    .service-row .body{display:none}
+    .footer-cols{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:560px){
+    .spot-grid{grid-template-columns:1fr}
+    .spot-card.span2{grid-column:span 1}
+    .team-grid{grid-template-columns:1fr}
+    .footer-cols{grid-template-columns:1fr}
+    .form-row{grid-template-columns:1fr}
+    .kv-grid,.arch-grid,.launch-stats,.loc-grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav>
+    <a href="#top" class="brand"><span class="mark">x</span>modx</a>
+    <div class="nav-links" id="navLinks">
+      <a href="#manifesto">About</a>
+      <a href="#process">Process</a>
+      <a href="#services">Services</a>
+      <a href="#product">Platform</a>
+      <a href="#team">Team</a>
+    </div>
+    <div class="nav-actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
+        <svg style="display:var(--moon)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+        <svg style="display:var(--sun)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+      </button>
+      <a href="#contact" class="btn-dark">Book a demo</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>
+      </button>
+    </div>
+  </nav>
+  <div class="nav-links-mobile" id="navLinksMobile">
+    <a href="#manifesto">About</a>
+    <a href="#process">Process</a>
+    <a href="#services">Services</a>
+    <a href="#product">Platform</a>
+    <a href="#team">Team</a>
+  </div>
+</header>
+
+<section id="top">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-fade"></div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-eyebrow"><span class="dot"></span>835/837 EDI processing · Revenue analytics</div>
+      <h1>Claims processed,<br><span>revenue understood.</span></h1>
+    </div>
+    <div class="hero-right">
+      <p>We process your 837 claims, reconcile 835 remittances, and turn the results into clear revenue analytics, so your team spends less time chasing payments.</p>
+      <div class="hero-ctas">
+        <a href="#contact" class="hero-cta-primary">Book a demo</a>
+        <a href="#product" class="hero-cta-secondary">Revenue Analytics Platform</a>
+      </div>
+    </div>
+  </div>
+  <div class="marquee">
+    <div class="marquee-track">
+      <span class="marquee-set"><span>837 claims processing</span><span>·</span><span>835 remittance matching</span><span>·</span><span>Revenue analytics</span><span>·</span><span class="accent">HIPAA compliant</span><span>·</span></span>
+      <span class="marquee-set"><span>837 claims processing</span><span>·</span><span>835 remittance matching</span><span>·</span><span>Revenue analytics</span><span>·</span><span class="accent">HIPAA compliant</span><span>·</span></span>
+    </div>
+  </div>
+</section>
+
+<section id="manifesto" class="wrap">
+  <div class="split-head" data-reveal>
+    <div class="eyebrow">What we are</div>
+    <h2>We are a claims and revenue analytics company. We help healthcare providers and billing teams <span class="accent">reduce denials</span> and get paid faster through end-to-end claims processing: <span class="accent">837 submission</span>, 835 remittance matching, <span class="accent">revenue analytics</span> and payer reporting.</h2>
+  </div>
+  <div class="pillars-grid">
+    <div class="pillar" data-reveal>
+      <div class="row"><span>01</span><span class="tag">837 claims</span></div>
+      <div><div class="title">Claims Processing</div><p>Every claim scrubbed and validated against payer rules before it reaches the clearinghouse, cutting rejections before they happen.</p></div>
+    </div>
+    <div class="pillar" data-reveal>
+      <div class="row"><span>02</span><span class="tag">835 matching</span></div>
+      <div><div class="title">Remittance Reconciliation</div><p>Remittances matched to claims automatically, with denials and underpayments flagged the moment they land.</p></div>
+    </div>
+    <div class="pillar" data-reveal>
+      <div class="row"><span>03</span><span class="tag">Full visibility</span></div>
+      <div><div class="title">Revenue Analytics</div><p>Dashboards on reimbursement, denial trends and payer performance, updated as claims move.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="process" class="wrap">
+  <div class="process-head" data-reveal>
+    <div class="eyebrow">How we work</div>
+    <h2>From onboarding to live claims. One accountable team on every step.</h2>
+  </div>
+  <div class="process-body">
+    <div class="stage-list">
+      <div class="stage-block is-active" data-stage="0">
+        <div class="n">01 · Discover</div>
+        <div class="title">We start with your claims volume, not our stack.</div>
+        <p>A working session on payer mix, denial patterns and current pain points. You leave with a fixed estimate and a plan you can read.</p>
+        <div class="chips"><span>Payer mix</span><span>Fixed estimate</span><span>Timeline</span></div>
+      </div>
+      <div class="stage-block" data-stage="1">
+        <div class="n">02 · Connect</div>
+        <div class="title">Secure EDI integration with your systems.</div>
+        <p>We connect to your PM system, EHR or clearinghouse via X12 EDI, with claim and remittance data models mapped before a single claim moves.</p>
+        <div class="chips"><span>X12 EDI</span><span>Clearinghouse</span><span>Data mapping</span></div>
+      </div>
+      <div class="stage-block" data-stage="2">
+        <div class="n">03 · Process &amp; reconcile</div>
+        <div class="title">Live 837 submission, 835 matching, every day.</div>
+        <p>Claims are scrubbed and submitted; incoming remittances are matched automatically. You see progress every week, not at the end.</p>
+        <div class="chips"><span>Claim scrubbing</span><span>Auto-matching</span><span>Denial alerts</span></div>
+      </div>
+      <div class="stage-block" data-stage="3">
+        <div class="n">04 · Optimize</div>
+        <div class="title">Live on the platform, then continuously improved.</div>
+        <p>Ongoing analytics and support to reduce denials and speed reimbursement, under a managed plan.</p>
+        <div class="chips"><span>Denial reduction</span><span>Reporting</span><span>Ongoing support</span></div>
+      </div>
+    </div>
+
+    <div class="stage-sticky">
+      <div class="stage-panel-outer">
+        <div class="stage-glow"></div>
+        <div class="stage-topbar"><span>modx · delivery</span><span id="stageLabel">01 · Discover</span></div>
+        <div class="stage-progress-track"><div class="stage-progress-fill" id="stageProgress" style="width:25%"></div></div>
+
+        <div class="stage-panel is-active" data-panel="0">
+          <div style="color:rgba(255,255,255,.6)">Discovery notes · Riverside Billing Group</div>
+          <div class="kv-grid">
+            <div class="kv-card"><span class="lbl">Objective</span><span>Cut denial rate and speed up reimbursement.</span></div>
+            <div class="kv-card"><span class="lbl">Constraint</span><span>HIPAA · existing clearinghouse · 3 locations.</span></div>
+            <div class="kv-card"><span class="lbl">Budget</span><span class="big">Fixed estimate</span></div>
+            <div class="kv-card"><span class="lbl">Timeline</span><span class="big">3 weeks</span></div>
+          </div>
+        </div>
+
+        <div class="stage-panel" data-panel="1">
+          <div style="color:rgba(255,255,255,.6);font-family:'Google Sans Flex',sans-serif;font-size:13px">System design · claims data model</div>
+          <div class="arch-grid">
+            <div class="arch-card primary"><span class="k">Claim (837)</span><span class="dim">claim_id · payer_id</span><span class="dim">provider_npi</span></div>
+            <div class="arch-card"><span>Remittance (835)</span><span class="dim">claim_id · paid_amt</span><span class="dim">adjustment_codes</span></div>
+            <div class="arch-card"><span>Denial</span><span class="dim">claim_id · reason_code</span><span class="dim">resolved_by</span></div>
+          </div>
+          <div class="arch-note">X12 837 ↔ clearinghouse adapter<br>835 matching service → exception queue<br>Audit log (append-only)</div>
+        </div>
+
+        <div class="stage-panel" data-panel="2">
+          <div style="color:rgba(255,255,255,.6)">Week 2 of 3 · onboarding</div>
+          <div class="sprint-list">
+            <div class="sprint-item"><span>837 claim scrubbing</span><span class="done">Done</span></div>
+            <div class="sprint-item"><span>835 auto-matching</span><span class="done">Done</span></div>
+            <div class="sprint-item active-border"><span>Denial alerting</span><span class="progress">In progress</span></div>
+            <div class="sprint-item muted"><span>Revenue dashboards</span><span>Next</span></div>
+          </div>
+        </div>
+
+        <div class="stage-panel" data-panel="3">
+          <div style="color:rgba(255,255,255,.6)">Live · Riverside Billing Group</div>
+          <div class="launch-stats">
+            <div class="card"><div class="lbl">Revenue reconciled / wk</div><div class="big">$186K</div></div>
+            <div class="card"><div class="lbl">Clean claim rate</div><div class="big green">96%</div></div>
+            <div class="card"><div class="lbl">Denials resolved</div><div class="big">100%</div></div>
+          </div>
+          <div class="launch-note">Onboarding complete. Ongoing analytics and support continue under a managed plan.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="services" class="wrap">
+  <div class="services-head" data-reveal>
+    <div class="eyebrow">Our services</div>
+    <div class="flex">
+      <h2>Claims, remittances and revenue, handled end to end.</h2>
+      <p>Not here to replace your billing team. Here to make their numbers work.</p>
+    </div>
+  </div>
+  <div class="services-list" id="servicesList">
+    <a href="#contact" class="service-row" data-i="0">
+      <span class="n">01</span><span class="title">837 Claims Processing</span>
+      <span class="body">Automated claim scrubbing, validation and submission for fewer rejections and faster payer turnaround.</span>
+      <span class="arrow">→</span>
+    </a>
+    <a href="#contact" class="service-row" data-i="1">
+      <span class="n">02</span><span class="title">835 Remittance Matching</span>
+      <span class="body">Every ERA matched to its claim automatically, with denials and underpayments flagged instantly.</span>
+      <span class="arrow">→</span>
+    </a>
+    <a href="#contact" class="service-row" data-i="2">
+      <span class="n">03</span><span class="title">Revenue Analytics</span>
+      <span class="body">Dashboards and reporting on reimbursement rates, denial trends and payer performance.</span>
+      <span class="arrow">→</span>
+    </a>
+    <a href="#contact" class="service-row" data-i="3">
+      <span class="n">04</span><span class="title">Custom Engineering</span>
+      <span class="body">Backend and frontend development, plus AI systems on RAG, Ollama and vector databases, in Next.js, React, C# and Python. Highly performant code, delivered.</span>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<section id="product">
+  <div class="wrap product-inner">
+    <div class="eyebrow">Our platform</div>
+    <div>
+      <div class="product-head" data-reveal>
+        <h2>Revenue Analytics Platform.<br><span>Every 837 and 835, reconciled and reported automatically.</span></h2>
+        <div style="display:flex;flex-direction:column;gap:18px">
+          <p>Built for billing teams and providers. HIPAA-ready workflows, multi-payer support and a full audit trail, integrated with your clearinghouse via X12 EDI.</p>
+          <div><a href="#contact" class="btn-demo">Request a demo</a></div>
+        </div>
+      </div>
+
+      <div class="spot-grid" id="spotGrid">
+        <div class="spot-card span2" data-reveal>
+          <div class="spot-glow"></div>
+          <div class="head"><div class="title">Automated claim scrubbing</div><div class="desc">Every 837 validated against payer rules before submission; billers approve exceptions in one click.</div></div>
+          <div class="spot-note">
+            <div class="who">Claim #48213 · Dr. Alvarez, 10:30</div>
+            <div class="body">Missing NPI on rendering provider, auto-corrected before submission to Aetna.</div>
+            <div class="actions"><span class="solid">Approve</span><span class="outline">Edit</span></div>
+          </div>
+        </div>
+        <div class="spot-card" data-reveal>
+          <div class="spot-glow"></div>
+          <div class="head"><div class="title">Revenue reconciled</div><div class="desc">Per billing group, per week, after onboarding.</div></div>
+          <div class="spot-count"><div class="num" data-count="186" data-suffix="K">0</div><div class="sub">vs manual reconciliation</div></div>
+        </div>
+        <div class="spot-card" data-reveal>
+          <div class="spot-glow"></div>
+          <div class="head"><div class="title">Clean claim rate</div><div class="desc">Accepted on first submission, no resubmission.</div></div>
+          <div class="spot-count"><div class="num green" data-count="96" data-suffix="%">0</div><div class="sub">first-pass acceptance</div></div>
+        </div>
+        <div class="spot-card" data-reveal>
+          <div class="spot-glow"></div>
+          <div class="head"><div class="title">Compliance built in</div><div class="desc">Role-based access, append-only audit trail.</div></div>
+          <div class="spot-audit">
+            <div class="row"><span>10:31 approved claim</span><span class="who">Dr. Lee</span></div>
+            <div class="row"><span>10:28 claim scrubbed</span><span>System</span></div>
+            <div class="row"><span>10:12 835 received</span><span>Aetna</span></div>
+          </div>
+        </div>
+        <div class="spot-card span2" data-reveal>
+          <div class="spot-glow"></div>
+          <div class="head"><div class="title">Denial &amp; underpayment alerts</div><div class="desc">Flags denials and underpayments the moment a remittance lands, so nothing slips.</div></div>
+          <div class="spot-list">
+            <div class="row"><span>Claim #4821 · Aetna: missing auth</span><span class="due">Denied</span></div>
+            <div class="row"><span>Claim #5502 · Cigna: underpaid $340</span><span class="due">Flagged</span></div>
+            <div class="row"><span>Claim #5588 · UHC: resubmitted</span><span class="dim">Resolved</span></div>
+          </div>
+        </div>
+        <div class="spot-card span2" data-reveal>
+          <div class="spot-glow"></div>
+          <div class="head"><div class="title">Multi-payer support</div><div class="desc">Live claim status and connectivity across your top payers.</div></div>
+          <div class="loc-grid">
+            <div class="card"><div class="name">Aetna</div><div class="hours">Connected</div></div>
+            <div class="card"><div class="name">UnitedHealthcare</div><div class="hours">Connected</div></div>
+            <div class="card"><div class="name">Cigna</div><div class="hours">Connected</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="team" class="wrap">
+  <div class="team-head" data-reveal>
+    <div class="eyebrow">Our team</div>
+    <div class="flex">
+      <h2>The people behind modx.</h2>
+      <p>Claims engineers, analysts, project managers and designers, one accountable team.</p>
+    </div>
+  </div>
+  <div class="team-grid">
+    <div class="team-card" data-reveal>
+      <div class="team-photo"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"></path></svg></div>
+      <div class="team-info"><div><div class="name">Team member 1</div><div class="role">Founder &amp; CEO</div></div><span class="idx">01</span></div>
+    </div>
+    <div class="team-card" data-reveal>
+      <div class="team-photo"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"></path></svg></div>
+      <div class="team-info"><div><div class="name">Team member 2</div><div class="role">Lead Architect</div></div><span class="idx">02</span></div>
+    </div>
+    <div class="team-card" data-reveal>
+      <div class="team-photo"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"></path></svg></div>
+      <div class="team-info"><div><div class="name">Team member 3</div><div class="role">Project Manager</div></div><span class="idx">03</span></div>
+    </div>
+    <div class="team-card" data-reveal>
+      <div class="team-photo"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"></path></svg></div>
+      <div class="team-info"><div><div class="name">Team member 4</div><div class="role">Head of Design</div></div><span class="idx">04</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="wrap">
+  <div class="contact-card" data-reveal>
+    <div class="contact-left">
+      <div class="eyebrow">Built for revenue cycle teams</div>
+      <h2>Get clarity on every claim, every remittance, every dollar.</h2>
+      <p>Have claims you need processed or reconciled? For immediate support:</p>
+      <a href="mailto:info@techmodx.com" class="mailto">info@techmodx.com</a>
+    </div>
+    <form class="contact-form" id="contactForm">
+      <div class="form-row"><input placeholder="Your name" name="name" required><input placeholder="Company" name="company"></div>
+      <div class="form-row"><input placeholder="Work email" type="email" name="email" required><input placeholder="Phone" type="tel" name="phone"></div>
+      <select name="need">
+        <option value="">What do you need?</option>
+        <option>837 Claims Processing</option><option>835 Remittance &amp; Reconciliation</option><option>Revenue Analytics</option>
+        <option>Custom Engineering</option>
+        <option>Platform demo</option>
+      </select>
+      <textarea placeholder="Tell us about your project" name="message" rows="4"></textarea>
+      <button type="submit" class="btn-send">Send message</button>
+      <div class="form-note" id="formNote">Thanks. We'll be in touch shortly.</div>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-card">
+    <div class="footer-cols">
+      <div class="footer-brand">
+        <div class="logo"><span class="mark">x</span>modx</div>
+        <p>Claims processed. Remittances reconciled. Revenue understood. We help healthcare providers and billing teams get paid faster.</p>
+        <div class="footer-socials">
+          <a href="#" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 22v-8h2.7l.4-3.2h-3.1V8.8c0-.9.3-1.6 1.6-1.6h1.7V4.4c-.3 0-1.3-.1-2.5-.1-2.5 0-4.1 1.5-4.1 4.2v2.3H7.4V14h2.8v8h3.3z"></path></svg></a>
+          <a href="#" aria-label="LinkedIn"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.1c.5-1 1.8-2 3.7-2 4 0 4.7 2.6 4.7 6V21h-4v-5.5c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9V21H9z"></path></svg></a>
+          <a href="mailto:info@techmodx.com" aria-label="Email"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path></svg></a>
+        </div>
+      </div>
+      <div class="footer-col"><span class="head">Services</span><a href="#services">837 Claims Processing</a><a href="#services">835 Remittance Matching</a><a href="#services">Revenue Analytics</a><a href="#services">Custom Engineering</a></div>
+      <div class="footer-col"><span class="head">Product</span><a href="#product">Revenue Analytics Platform</a><a href="#process">How we work</a><a href="#contact">Request a demo</a></div>
+      <div class="footer-col"><span class="head">Company</span><a href="#manifesto">About</a><a href="#team">Team</a><a href="#contact">Contact</a><a href="#contact">Support</a></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© Copyright reserved to |x| by techmodx</span>
+      <div class="links"><a href="modxPrivacyPolicy.html">Privacy Policy</a><a href="modxTermsandConditions.html">Terms &amp; Conditions</a></div>
+    </div>
+  </div>
+  <div class="footer-wordmark"><span>MODX</span></div>
+</footer>
+
+<script src="vendor/three.min.js"></script>
+<script src="vendor/jquery-3.7.1.min.js"></script>
+<script>
+$(function () {
+  "use strict";
+
+  /* ---- theme toggle ---- */
+  var root = document.documentElement;
+  function applyTheme(t) { root.setAttribute("data-theme", t); }
+  applyTheme(localStorage.getItem("modx-theme-d") || "light");
+  $("#themeToggle").on("click", function () {
+    var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    applyTheme(next);
+    localStorage.setItem("modx-theme-d", next);
+  });
+
+  /* ---- mobile nav ---- */
+  $("#navToggle").on("click", function () {
+    var open = $("#navLinksMobile").toggleClass("is-open").hasClass("is-open");
+    $(this).attr("aria-expanded", open);
+  });
+  $("#navLinksMobile a, #navLinks a").on("click", function () {
+    $("#navLinksMobile").removeClass("is-open");
+    $("#navToggle").attr("aria-expanded", false);
+  });
+
+  /* ---- scroll reveal (+ count-up on reveal) ---- */
+  function animateCount(el) {
+    var target = parseFloat(el.getAttribute("data-count"));
+    var suffix = el.getAttribute("data-suffix") || "";
+    var dec = String(el.getAttribute("data-count")).indexOf(".") > -1 ? 1 : 0;
+    var t0 = performance.now();
+    function tick(t) {
+      var p = Math.min(1, (t - t0) / 1400);
+      var e = 1 - Math.pow(1 - p, 3);
+      el.textContent = (target * e).toFixed(dec) + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  var revealTargets = document.querySelectorAll("[data-reveal]");
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          entry.target.querySelectorAll("[data-count]").forEach(animateCount);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealTargets.forEach(function (el) { io.observe(el); });
+  } else {
+    revealTargets.forEach(function (el) {
+      el.classList.add("is-visible");
+      el.querySelectorAll("[data-count]").forEach(animateCount);
+    });
+  }
+
+  /* ---- sticky process: which stage is centered ---- */
+  var stageBlocks = document.querySelectorAll(".stage-block");
+  var stagePanels = document.querySelectorAll(".stage-panel");
+  var $stageLabel = $("#stageLabel");
+  var $stageProgress = $("#stageProgress");
+  var stageMeta = [
+    { n: "01", label: "Discover" },
+    { n: "02", label: "Connect" },
+    { n: "03", label: "Process & reconcile" },
+    { n: "04", label: "Optimize" }
+  ];
+  var currentStage = 0;
+  function setStage(i) {
+    if (i === currentStage) return;
+    currentStage = i;
+    stageBlocks.forEach(function (el) {
+      var idx = +el.dataset.stage;
+      el.classList.toggle("is-active", idx === i);
+    });
+    stagePanels.forEach(function (el) {
+      var idx = +el.dataset.panel;
+      el.classList.toggle("is-active", idx === i);
+      el.classList.toggle("is-past", idx < i);
+    });
+    $stageLabel.text(stageMeta[i].n + " · " + stageMeta[i].label);
+    $stageProgress.css("width", ((i + 1) / 4 * 100) + "%");
+  }
+  if ("IntersectionObserver" in window) {
+    var stageIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) setStage(+entry.target.dataset.stage);
+      });
+    }, { rootMargin: "-45% 0px -45% 0px" });
+    stageBlocks.forEach(function (el) { stageIO.observe(el); });
+  }
+
+  /* ---- services expanding list ---- */
+  var $rows = $(".service-row");
+  $rows.on("mouseenter", function () {
+    var $this = $(this);
+    $rows.not($this).addClass("is-dimmed").removeClass("is-hovered");
+    $this.addClass("is-hovered").removeClass("is-dimmed");
+  });
+  $("#servicesList").on("mouseleave", function () {
+    $rows.removeClass("is-hovered is-dimmed");
+  });
+
+  /* ---- product bento spotlight ---- */
+  var $spotGrid = $("#spotGrid");
+  $spotGrid.on("mousemove", function (e) {
+    $(".spot-card").each(function () {
+      var r = this.getBoundingClientRect();
+      var inside = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+      this.style.setProperty("--mx", (e.clientX - r.left) + "px");
+      this.style.setProperty("--my", (e.clientY - r.top) + "px");
+      this.style.setProperty("--so", inside ? "1" : "0");
+    });
+  });
+  $spotGrid.on("mouseleave", function () {
+    $(".spot-card").each(function () { this.style.setProperty("--so", "0"); });
+  });
+
+  /* ---- contact form (front-end only) ---- */
+  $("#contactForm").on("submit", function (e) {
+    e.preventDefault();
+    $("#formNote").addClass("is-visible");
+    this.reset();
+  });
+
+  /* ---- hero canvas: full-width interactive ripple grid ---- */
+  var canvas = document.getElementById("hero-canvas");
+  var heroSection = document.getElementById("top");
+
+  var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+
+  var scene = new THREE.Scene();
+  var FOV = 55, Z_DEPTH = -25;
+  var camera = new THREE.PerspectiveCamera(FOV, 1, 0.1, 200);
+  camera.position.set(0, 0, 60);
+
+  var SEG_X = 56, SEG_Y = 34;
+  var COLS = SEG_X + 1, ROWS = SEG_Y + 1;
+  var VCOUNT = COLS * ROWS;
+
+  var gridU = new Float32Array(VCOUNT); // normalized local x, -0.5..0.5
+  var gridV = new Float32Array(VCOUNT); // normalized local y, -0.5..0.5
+  (function () {
+    var k = 0;
+    for (var j = 0; j < ROWS; j++) {
+      for (var i = 0; i < COLS; i++) {
+        gridU[k] = i / SEG_X - 0.5;
+        gridV[k] = j / SEG_Y - 0.5;
+        k++;
+      }
+    }
+  })();
+
+  var gridPositions = new Float32Array(VCOUNT * 3);
+  var gridColors = new Float32Array(VCOUNT * 3);
+
+  var segCount = ROWS * (COLS - 1) + COLS * (ROWS - 1);
+  var gridIndices = new Uint32Array(segCount * 2);
+  (function () {
+    var s = 0;
+    for (var j = 0; j < ROWS; j++) {
+      for (var i = 0; i < COLS - 1; i++) {
+        gridIndices[s++] = j * COLS + i;
+        gridIndices[s++] = j * COLS + i + 1;
+      }
+    }
+    for (var i2 = 0; i2 < COLS; i2++) {
+      for (var j2 = 0; j2 < ROWS - 1; j2++) {
+        gridIndices[s++] = j2 * COLS + i2;
+        gridIndices[s++] = (j2 + 1) * COLS + i2;
+      }
+    }
+  })();
+
+  var gridGeo = new THREE.BufferGeometry();
+  gridGeo.setAttribute("position", new THREE.BufferAttribute(gridPositions, 3));
+  gridGeo.setAttribute("color", new THREE.BufferAttribute(gridColors, 3));
+  gridGeo.setIndex(new THREE.BufferAttribute(gridIndices, 1));
+
+  var gridMat = new THREE.LineBasicMaterial({
+    vertexColors: true, transparent: true, opacity: 0.85,
+    blending: THREE.AdditiveBlending, depthWrite: false
+  });
+  var gridMesh = new THREE.LineSegments(gridGeo, gridMat);
+  gridMesh.position.z = Z_DEPTH;
+  scene.add(gridMesh);
+
+  var WORLD_WIDTH = 0, WORLD_HEIGHT = 0;
+  var mouseTarget = { x: 0, y: 0 };
+  var mouseLocal = { x: 0, y: 0 };
+  var lastMoveTime = 0;
+
+  heroSection.addEventListener("mousemove", function (e) {
+    var r = heroSection.getBoundingClientRect();
+    var nx = ((e.clientX - r.left) / r.width) * 2 - 1;
+    var ny = ((e.clientY - r.top) / r.height) * 2 - 1;
+    mouseTarget.x = nx; mouseTarget.y = ny;
+    mouseLocal.x = nx * (WORLD_WIDTH / 2);
+    mouseLocal.y = -ny * (WORLD_HEIGHT / 2);
+    lastMoveTime = performance.now();
+  });
+  heroSection.addEventListener("mouseleave", function () {
+    mouseTarget.x = 0; mouseTarget.y = 0;
+  });
+
+  function resizeThree() {
+    var w = heroSection.clientWidth, h = heroSection.clientHeight;
+    if (!w || !h) return;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    var dist = camera.position.z - Z_DEPTH;
+    var halfH = dist * Math.tan(THREE.MathUtils.degToRad(FOV / 2));
+    WORLD_HEIGHT = halfH * 2 * 1.02;
+    WORLD_WIDTH = WORLD_HEIGHT * (w / h) * 1.02;
+  }
+  resizeThree();
+  if ("ResizeObserver" in window) {
+    new ResizeObserver(resizeThree).observe(heroSection);
+  } else {
+    window.addEventListener("resize", resizeThree);
+  }
+
+  var camX = 0, camY = 0, raf3d;
+  function animate3d(tm) {
+    var t = (tm || 0) * 0.0009;
+
+    var since = lastMoveTime ? performance.now() - lastMoveTime : Infinity;
+    var cx, cy;
+    if (since > 1800) {
+      cx = Math.sin(t * 0.35) * WORLD_WIDTH * 0.22;
+      cy = Math.cos(t * 0.27) * WORLD_HEIGHT * 0.22;
+    } else {
+      cx = mouseLocal.x; cy = mouseLocal.y;
+    }
+
+    var dark = document.documentElement.getAttribute("data-theme") === "dark";
+    var baseR = 0.02, baseG = 0.14, baseB = 0.10;
+    var peakR = dark ? 0.30 : 0.02, peakG = dark ? 1.0 : 0.5, peakB = dark ? 0.75 : 0.32;
+    gridMat.opacity = dark ? 0.9 : 0.55;
+
+    var sigma = Math.max(WORLD_WIDTH, WORLD_HEIGHT) * 0.14;
+    var sigma2 = sigma * sigma;
+
+    var pos = gridGeo.attributes.position.array;
+    var col = gridGeo.attributes.color.array;
+    for (var k = 0; k < VCOUNT; k++) {
+      var lx = gridU[k] * WORLD_WIDTH;
+      var ly = gridV[k] * WORLD_HEIGHT;
+      var wave = Math.sin(lx * 0.06 + t * 1.1) * 0.7 + Math.cos(ly * 0.08 - t * 0.9) * 0.6;
+      var dx = lx - cx, dy = ly - cy;
+      var d2 = dx * dx + dy * dy;
+      var d = Math.sqrt(d2);
+      var ripple = 3.2 * Math.exp(-d2 / (2 * sigma2)) * Math.sin(d * 0.5 - t * 3.2);
+      var dz = wave + ripple;
+
+      var o = k * 3;
+      pos[o] = lx; pos[o + 1] = ly; pos[o + 2] = dz;
+
+      var b = Math.min(1, Math.abs(dz) / 3.0);
+      col[o] = baseR + (peakR - baseR) * b;
+      col[o + 1] = baseG + (peakG - baseG) * b;
+      col[o + 2] = baseB + (peakB - baseB) * b;
+    }
+    gridGeo.attributes.position.needsUpdate = true;
+    gridGeo.attributes.color.needsUpdate = true;
+
+    camX += (mouseTarget.x * 8 - camX) * 0.04;
+    camY += (-mouseTarget.y * 5 - camY) * 0.04;
+    camera.position.x = camX;
+    camera.position.y = camY + Math.sin(t * 0.3) * 0.6;
+    camera.lookAt(0, 0, Z_DEPTH);
+
+    renderer.render(scene, camera);
+    if (!reduceMotion) raf3d = requestAnimationFrame(animate3d);
+  }
+
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  animate3d(reduceMotion ? 0 : undefined);
+});
+</script>
+</body>
+</html>

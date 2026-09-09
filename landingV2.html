@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MODX: Claims processed. Revenue understood.</title>
+<meta name="description" content="MODX processes 837 healthcare claims, reconciles 835 remittances, and turns the results into revenue analytics for providers and billing teams.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,300..800&family=Google+Sans+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme:light;
+    --bg:#F8F9FA;--panel:#FFFFFF;--fg:#101513;--fg2:#5D6763;--line:rgba(16,21,19,.09);
+    --green:#088B59;--green-ink:#07714A;--lime:#9BE3B8;--mint:#E3F5EC;
+    --hero:#0B3B2A;--hero2:#0F5A3E;--sun:none;--moon:block;
+  }
+  [data-theme="dark"]{
+    color-scheme:dark;
+    --bg:#0C100F;--panel:#141A18;--fg:#EEF2F0;--fg2:#96A19C;--line:rgba(238,242,240,.10);
+    --green:#2ED390;--green-ink:#2ED390;--lime:#2ED390;--mint:rgba(46,211,144,.12);
+    --hero:#07271D;--hero2:#0B3B2A;--sun:block;--moon:none;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--bg);color:var(--fg);padding:16px;
+    font-family:"Google Sans Flex","Google Sans","Product Sans",system-ui,sans-serif;
+    font-optical-sizing:auto;-webkit-font-smoothing:antialiased;
+    transition:background .3s,color .3s;
+  }
+  a{color:var(--green-ink);text-decoration:none}
+  a:hover{color:var(--green)}
+  ::selection{background:var(--green);color:#fff}
+  ::-moz-selection{background:var(--green);color:#fff}
+  h1,h2{margin:0;font-weight:500;letter-spacing:-.03em}
+  .wrap{max-width:1060px;margin:0 auto;padding-left:24px;padding-right:24px}
+  @keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+  [data-reveal]{opacity:0;transform:translateY(18px);transition:opacity .7s,transform .7s}
+  [data-reveal].is-visible{opacity:1;transform:none}
+
+  /* ---------- hero ---------- */
+  #top{position:relative;overflow:hidden;border-radius:24px;background:linear-gradient(180deg,var(--hero),var(--hero2));color:#fff}
+  #hero-canvas{position:absolute;inset:0;z-index:0;width:100%;height:100%;display:block}
+
+  header.site-header{position:relative;z-index:3;padding:20px 24px 0}
+  header.site-header nav{max-width:1060px;margin:0 auto;padding:8px 8px 8px 16px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;
+    border-radius:14px;background:rgba(155,227,184,.14);border:1px solid rgba(155,227,184,.25);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+  .brand{display:flex;align-items:center;gap:9px;color:#fff;font-weight:600;font-size:16px;white-space:nowrap}
+  .brand .mark{width:24px;height:24px;border-radius:7px;background:var(--lime);display:grid;place-items:center;color:#0B3B2A;font-size:11px;font-weight:700}
+  .nav-links{display:flex;gap:2px;margin-left:auto;font-size:14px;white-space:nowrap}
+  .nav-links a{color:rgba(255,255,255,.8);padding:6px 12px}
+  .nav-links a:hover{color:#fff}
+  .nav-actions{display:flex;align-items:center;gap:8px}
+  .icon-btn{width:34px;height:34px;border-radius:9px;border:1px solid rgba(255,255,255,.25);background:transparent;color:#fff;cursor:pointer;display:grid;place-items:center}
+  .icon-btn:hover{border-color:#fff}
+  .icon-btn svg{width:15px;height:15px}
+  .btn-outline{color:#fff;padding:8px 14px;border-radius:9px;border:1px solid rgba(255,255,255,.25);font-size:13px;white-space:nowrap;display:inline-block}
+  .btn-outline:hover{color:#fff;border-color:#fff}
+  .btn-lime{background:var(--lime);color:#0B3B2A;padding:9px 16px;border-radius:9px;font-weight:600;font-size:13px;white-space:nowrap;display:inline-block}
+  .btn-lime:hover{color:#0B3B2A;filter:brightness(1.05)}
+  .nav-toggle{display:none;width:34px;height:34px;border-radius:9px;border:1px solid rgba(255,255,255,.25);background:transparent;color:#fff;cursor:pointer;align-items:center;justify-content:center}
+  .nav-toggle svg{width:18px;height:18px}
+
+  .hero-inner{position:relative;z-index:2;max-width:1060px;margin:0 auto;padding:84px 24px 0;text-align:center;display:flex;flex-direction:column;align-items:center;gap:22px;animation:rise .8s cubic-bezier(.2,.7,.2,1) both}
+  .hero-tags{display:flex;gap:18px;font-size:12px;color:rgba(255,255,255,.65);white-space:nowrap;flex-wrap:wrap;justify-content:center}
+  .hero-inner h1{font-size:clamp(44px,6.2vw,80px);line-height:1.02;letter-spacing:-.035em;max-width:820px;text-wrap:balance}
+  .hero-inner h1 em{font-style:italic;font-weight:300;color:var(--lime)}
+  .hero-inner p{margin:0;max-width:560px;font-size:16px;line-height:1.6;color:rgba(255,255,255,.7);text-wrap:pretty}
+  .hero-ctas{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+  .hero-cta-primary{background:var(--lime);color:#0B3B2A;padding:13px 22px;border-radius:10px;font-weight:600;font-size:14px;white-space:nowrap}
+  .hero-cta-primary:hover{color:#0B3B2A;filter:brightness(1.05)}
+  .hero-cta-secondary{color:#fff;padding:13px 22px;border-radius:10px;border:1px solid rgba(255,255,255,.28);font-weight:500;font-size:14px;white-space:nowrap}
+  .hero-cta-secondary:hover{color:#fff;border-color:#fff}
+
+  /* dashboard mock overlapping hero bottom */
+  .dash-wrap{position:relative;z-index:2;max-width:980px;margin:56px auto -2px;padding:0 24px}
+  .dash{border-radius:18px 18px 0 0;background:var(--panel);color:var(--fg);border:1px solid var(--line);border-bottom:0;
+    box-shadow:0 -20px 80px -30px rgba(0,0,0,.5);overflow:hidden;font-size:12px;display:grid;grid-template-columns:180px 1fr;min-height:320px}
+  .dash-side{border-right:1px solid var(--line);padding:18px 14px;display:flex;flex-direction:column;gap:4px}
+  .dash-side .brand-row{display:flex;align-items:center;gap:8px;font-weight:600;font-size:13px;margin-bottom:12px}
+  .dash-side .brand-row .mark{width:20px;height:20px;border-radius:6px;background:var(--green);display:grid;place-items:center;color:#fff;font-size:9px}
+  .dash-side .item{padding:8px 10px;color:var(--fg2)}
+  .dash-side .item.active{border-radius:8px;background:var(--mint);color:var(--green-ink);font-weight:500}
+  .dash-main{padding:20px 22px;display:flex;flex-direction:column;gap:16px;text-align:left}
+  .dash-head{display:flex;justify-content:space-between;align-items:center}
+  .dash-head .title{font-size:15px;font-weight:600}
+  .dash-head .sub{color:var(--fg2)}
+  .dash-head .actions{display:flex;gap:6px}
+  .dash-head .actions span{padding:6px 10px;border-radius:8px;border:1px solid var(--line)}
+  .dash-head .actions span.solid{background:var(--green);color:#fff;font-weight:500;border:none}
+  .dash-stats{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:12px}
+  .dash-stats .card{border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px}
+  .dash-stats .lbl{color:var(--fg2)}
+  .dash-stats .num{font-size:26px;font-weight:600;letter-spacing:-.02em}
+  .dash-stats .num span{font-size:11px;color:var(--green-ink);font-weight:500}
+  .dash-stats .num.green{color:var(--green-ink)}
+  .dash-stats .desc{color:var(--fg2);line-height:1.5}
+  .bars{display:flex;align-items:end;gap:5px;height:56px}
+  .bars span{flex:1;border-radius:3px 3px 0 0;background:var(--green)}
+  .dash-ai{border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--mint);display:flex;flex-direction:column;gap:6px}
+  .dash-ai .who{color:var(--green-ink);font-weight:600}
+  .dash-ai .body{line-height:1.5}
+
+  /* ---------- about + pillars ---------- */
+  #about{padding:96px 0 0}
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+  .about-grid h2{font-size:clamp(30px,3.6vw,44px);line-height:1.08;text-wrap:balance}
+  .about-grid p{margin:0;color:var(--fg2);font-size:15px;line-height:1.65;max-width:440px;text-wrap:pretty}
+  .pillars-grid{margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .pillar{border-top:1px solid var(--line);padding-top:22px;display:flex;flex-direction:column;gap:10px}
+  .pillar .label{display:flex;align-items:center;gap:8px;color:var(--fg2);font-size:13px}
+  .pillar .label .dot{width:8px;height:8px;border-radius:2px;background:var(--green)}
+  .pillar .big{font-size:clamp(24px,2.6vw,34px);font-weight:500;letter-spacing:-.02em;line-height:1.1}
+  .pillar p{margin:0;color:var(--fg2);font-size:13px;line-height:1.6;text-wrap:pretty}
+
+  /* ---------- services ---------- */
+  #services{padding:110px 0 0;text-align:center}
+  #services h2{font-size:clamp(30px,3.6vw,44px);line-height:1.08;max-width:620px;margin:0 auto 12px;text-wrap:balance}
+  #services > .wrap > p{margin:0 auto;max-width:480px;color:var(--fg2);font-size:15px}
+  .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:44px;text-align:left}
+  .service-card{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:22px;display:flex;flex-direction:column;gap:12px;color:var(--fg);transition:border-color .3s}
+  .service-card:hover{border-color:var(--green);color:var(--fg)}
+  .service-card .icon{width:36px;height:36px;border-radius:10px;background:var(--mint);display:grid;place-items:center;color:var(--green-ink)}
+  .service-card .title{font-size:17px;font-weight:600}
+  .service-card p{margin:0;color:var(--fg2);font-size:14px;line-height:1.55}
+
+  /* ---------- bento ---------- */
+  #platform{padding:110px 0 0}
+  .bento-head{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:end}
+  .bento-head .eyebrow{font-size:13px;color:var(--green-ink);font-weight:600;margin-bottom:12px}
+  .bento-head h2{font-size:clamp(30px,3.6vw,44px);line-height:1.08;text-wrap:balance}
+  .bento-head p{margin:0;color:var(--fg2);font-size:15px;line-height:1.65;max-width:440px}
+  .bento{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:40px}
+  .bento-card{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:22px;display:flex;flex-direction:column;justify-content:space-between;gap:20px;min-height:230px}
+  .bento-card.span2{grid-column:span 2}
+  .bento-card .title{font-size:17px;font-weight:600}
+  .bento-card .desc{font-size:13px;color:var(--fg2);line-height:1.6;margin-top:6px}
+  .bento-stat .num{font-size:40px;font-weight:600;letter-spacing:-.03em;line-height:1;color:var(--green-ink)}
+  .bento-stat .label{font-size:12px;color:var(--fg2);margin-top:6px}
+  .bento-list{display:flex;flex-direction:column;gap:6px}
+  .bento-list .item{display:flex;justify-content:space-between;padding:8px 0;border-top:1px solid var(--line);font-size:13px}
+  .bento-list .item span.ok{color:var(--green-ink);font-size:12px;font-weight:500}
+  .ai-note{border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px;font-size:12px;background:var(--mint)}
+  .ai-note .who{color:var(--green-ink);font-weight:600;font-size:12px}
+  .ai-note .body{line-height:1.55}
+  .ai-note .actions{display:flex;gap:6px}
+  .pill-approve{padding:6px 11px;border-radius:8px;background:var(--green);color:#fff;font-weight:600;font-size:11px}
+  .pill-edit{padding:6px 11px;border-radius:8px;border:1px solid var(--line);font-size:11px;background:var(--panel)}
+
+  /* ---------- process ---------- */
+  #process{padding:110px 0 0}
+  .process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:40px}
+  .process-step{border-top:2px solid var(--green);padding-top:18px;display:flex;flex-direction:column;gap:10px}
+  .process-step .n{font-family:"Google Sans Code",monospace;font-size:12px;color:var(--green-ink)}
+  .process-step .title{font-size:17px;font-weight:600}
+  .process-step p{margin:0;font-size:13px;color:var(--fg2);line-height:1.6}
+
+  /* ---------- industries ---------- */
+  #industries{padding:110px 0 0}
+  .industries-card{border-radius:16px;background:var(--panel);border:1px solid var(--line);padding:24px 28px;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+  .industries-card .eyebrow{font-size:13px;color:var(--green-ink);font-weight:600}
+  .tag-list{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
+  .tag-list span{padding:8px 14px;background:var(--mint);color:var(--green-ink);border-radius:999px;font-size:13px;font-weight:500}
+
+  /* ---------- faq ---------- */
+  #faq{padding:110px 0 0}
+  .faq-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:48px;align-items:start}
+  .faq-grid .eyebrow{font-size:13px;color:var(--green-ink);font-weight:600;margin-bottom:12px}
+  .faq-grid h2{font-size:clamp(30px,3.6vw,44px);line-height:1.08;text-wrap:balance}
+  .faq-list details{border-top:1px solid var(--line);padding:18px 0}
+  .faq-list summary{cursor:pointer;font-size:17px;font-weight:600;list-style:none}
+  .faq-list summary::-webkit-details-marker{display:none}
+  .faq-list p{margin:12px 0 0;color:var(--fg2);font-size:14px;line-height:1.6;max-width:560px}
+
+  /* ---------- team ---------- */
+  #team{padding:110px 0 0}
+  .team-head{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:end}
+  .team-head .eyebrow{font-size:13px;color:var(--green-ink);font-weight:600;margin-bottom:12px}
+  .team-head h2{font-size:clamp(30px,3.6vw,44px);line-height:1.08}
+  .team-head p{margin:0;color:var(--fg2);font-size:15px;line-height:1.65;max-width:440px}
+  .team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:40px}
+  .team-card{display:flex;flex-direction:column;gap:12px}
+  .team-photo{aspect-ratio:4/5;border-radius:16px;overflow:hidden;background:var(--panel);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--fg2)}
+  .team-photo svg{opacity:.4}
+  .team-info{display:flex;flex-direction:column;gap:3px;padding:0 4px}
+  .team-info .name{font-size:16px;font-weight:600}
+  .team-info .role{font-size:13px;color:var(--green-ink)}
+  .team-info .desc{font-size:13px;color:var(--fg2)}
+
+  /* ---------- product ---------- */
+  #product{padding:110px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+  .product-left{display:flex;flex-direction:column;gap:18px}
+  .product-left .eyebrow{font-size:13px;color:var(--green-ink);font-weight:600}
+  .product-left h2{font-size:clamp(30px,3.6vw,44px);line-height:1.08;text-wrap:balance}
+  .product-left p{margin:0;color:var(--fg2);font-size:15px;line-height:1.6;max-width:420px}
+  .steps{display:flex;flex-direction:column;margin-top:8px}
+  .step-row{display:flex;gap:14px;padding:14px 0;border-top:1px solid var(--line);align-items:baseline}
+  .step-row .n{font-family:"Google Sans Code",monospace;font-size:12px;color:var(--green-ink)}
+  .step-row .title{font-weight:500}
+  .step-row .body{color:var(--fg2);font-size:13px;margin-top:3px;line-height:1.5}
+  .review-card{border:1px solid var(--line);border-radius:18px;background:var(--panel);padding:22px;display:flex;flex-direction:column;gap:14px;font-size:13px}
+  .review-card .head{display:flex;justify-content:space-between;align-items:center}
+  .review-card .head .title{font-weight:600;font-size:15px}
+  .review-card .head .sub{color:var(--fg2);font-size:12px}
+  .review-item{border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px}
+  .review-item .row{display:flex;justify-content:space-between;color:var(--fg2);font-size:12px}
+  .review-item .row span.ai{color:var(--green-ink)}
+  .review-item .row span.flag{color:#B7791F}
+  .review-item .body{line-height:1.55}
+  .review-actions{display:flex;gap:8px}
+  .review-actions span{flex:1;text-align:center;padding:11px;border-radius:10px}
+  .review-actions span.solid{background:var(--green);color:#fff;font-weight:600}
+  .review-actions span.outline{border:1px solid var(--line)}
+
+  /* ---------- contact ---------- */
+  #contact{margin-top:110px;padding:0 0 24px}
+  .contact-card{border-radius:24px;background:linear-gradient(180deg,var(--hero),var(--hero2));color:#fff;padding:64px 56px;display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center}
+  .contact-left{display:flex;flex-direction:column;gap:16px}
+  .contact-left .eyebrow{font-size:13px;color:var(--lime);font-weight:600}
+  .contact-left h2{font-size:clamp(30px,3.6vw,46px);line-height:1.06;text-wrap:balance}
+  .contact-left p{margin:0;color:rgba(255,255,255,.7);font-size:15px}
+  .contact-left a{color:#fff;font-weight:500;text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--lime)}
+  .contact-form{display:flex;flex-direction:column;gap:10px}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .contact-form input,.contact-form select,.contact-form textarea{
+    padding:13px 15px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);
+    color:#fff;font:inherit;font-size:14px;width:100%;color-scheme:dark}
+  .contact-form input::placeholder,.contact-form textarea::placeholder{color:rgba(255,255,255,.55)}
+  .contact-form textarea{resize:none}
+  .btn-send{padding:13px;border-radius:10px;border:0;background:var(--lime);color:#0B3B2A;font:inherit;font-weight:600;font-size:14px;cursor:pointer}
+  .form-note{font-size:13px;color:var(--lime);display:none}
+  .form-note.is-visible{display:block}
+
+  /* ---------- footer ---------- */
+  footer{max-width:1060px;margin:24px auto 0;padding:0 24px}
+  .footer-card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:40px}
+  .footer-cols{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:40px;align-items:start}
+  .footer-brand{display:flex;flex-direction:column;gap:14px}
+  .footer-brand .logo{display:flex;align-items:center;gap:9px;font-weight:600;font-size:16px;color:var(--fg)}
+  .footer-brand .logo .mark{width:24px;height:24px;border-radius:7px;background:var(--green);display:grid;place-items:center;color:#fff;font-size:11px;font-weight:700}
+  .footer-brand p{margin:0;color:var(--fg2);font-size:13px;line-height:1.6;max-width:320px}
+  .footer-socials{display:flex;gap:14px;color:var(--fg)}
+  .footer-socials a{color:var(--fg)}
+  .footer-col{display:flex;flex-direction:column;gap:10px;font-size:13px}
+  .footer-col span.head{font-weight:600;color:var(--fg);margin-bottom:4px}
+  .footer-col a{color:var(--fg2)}
+  .footer-bottom{margin-top:36px;padding-top:22px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--fg2)}
+  .footer-bottom .links{display:flex;gap:18px}
+  .footer-bottom .links a{color:var(--fg2);text-decoration:underline;text-underline-offset:3px}
+  .footer-wordmark{position:relative;height:clamp(110px,16vw,220px);overflow:hidden;margin-top:12px}
+  .footer-wordmark span{position:absolute;left:0;right:0;top:0;font-size:clamp(150px,24vw,340px);font-weight:600;letter-spacing:-.06em;line-height:.78;text-align:center;color:color-mix(in oklab,var(--green) 8%,transparent);user-select:none;pointer-events:none}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:900px){
+    .nav-links{display:none;flex-direction:column;gap:0;width:100%;margin-left:0;order:3}
+    .nav-links.is-open{display:flex}
+    .nav-links a{padding:12px 0;border-top:1px solid rgba(255,255,255,.15)}
+    .nav-toggle{display:flex}
+    .about-grid,.bento-head,.team-head,.faq-grid,#product,.contact-card{grid-template-columns:1fr}
+    .pillars-grid,.services-grid,.process-grid{grid-template-columns:1fr}
+    .bento{grid-template-columns:1fr 1fr}
+    .bento-card.span2{grid-column:span 2}
+    .team-grid{grid-template-columns:1fr 1fr}
+    .dash{grid-template-columns:1fr}
+    .dash-side{display:none}
+    .footer-cols{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:560px){
+    .dash-stats{grid-template-columns:1fr}
+    .bento{grid-template-columns:1fr}
+    .bento-card.span2{grid-column:span 1}
+    .team-grid{grid-template-columns:1fr}
+    .footer-cols{grid-template-columns:1fr}
+    .form-row{grid-template-columns:1fr}
+    .contact-card{padding:40px 24px}
+  }
+</style>
+</head>
+<body>
+
+<section id="top">
+  <canvas id="hero-canvas"></canvas>
+
+  <header class="site-header">
+    <nav>
+      <a href="#top" class="brand"><span class="mark">x</span>modx</a>
+
+      <div class="nav-links" id="navLinks">
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#product">Platform</a>
+        <a href="#team">Team</a>
+        <a href="#contact">Contact</a>
+      </div>
+
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
+          <svg style="display:var(--moon)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+          <svg style="display:var(--sun)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+        </button>
+        <a href="#contact" class="btn-outline">Contact</a>
+        <a href="#contact" class="btn-lime">Book a demo →</a>
+        <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <div class="hero-inner">
+    <div class="hero-tags"><span>837 claims</span><span>·</span><span>835 remittance</span><span>·</span><span>Revenue analytics</span></div>
+    <h1>Claims processed.<br>Revenue <em>understood.</em></h1>
+    <p>We process your 837 claims, reconcile 835 remittances, and turn the results into clear revenue analytics, so your team spends less time chasing payments.</p>
+    <div class="hero-ctas">
+      <a href="#contact" class="hero-cta-primary">Book a demo</a>
+      <a href="#product" class="hero-cta-secondary">See the platform</a>
+    </div>
+  </div>
+
+  <div class="dash-wrap">
+    <div class="dash">
+      <div class="dash-side">
+        <div class="brand-row"><span class="mark">x</span>Claims Console</div>
+        <div class="item active">Dashboard</div>
+        <div class="item">Claims</div>
+        <div class="item">Remittances</div>
+        <div class="item">Payers</div>
+        <div class="item">Analytics</div>
+        <div class="item">Compliance</div>
+      </div>
+      <div class="dash-main">
+        <div class="dash-head">
+          <div><div class="title">Dashboard</div><div class="sub">Riverside Billing Group · Today, 214 claims</div></div>
+          <div class="actions"><span>This week ▾</span><span class="solid">New claim</span></div>
+        </div>
+        <div class="dash-stats">
+          <div class="card">
+            <div class="lbl">Claims processed</div>
+            <div class="num">214 <span>+38 today</span></div>
+            <div class="bars" id="dashBars"></div>
+          </div>
+          <div class="card"><div class="lbl">Denials flagged</div><div class="num">7</div><div class="desc">3 missing auth · 4 underpaid</div></div>
+          <div class="card"><div class="lbl">Revenue reconciled</div><div class="num green">$186K</div><div class="desc">vs manual reconciliation</div></div>
+        </div>
+        <div class="dash-ai">
+          <div class="who">835 match · Claim #48213, 10:30</div>
+          <div class="body">Remittance received from Aetna. Paid $412.00 against billed $460.00, a $48 contractual adjustment, no denial.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="wrap">
+  <div class="about-grid">
+    <h2 data-reveal>We turn claims data into revenue clarity</h2>
+    <p data-reveal>We help healthcare providers and billing teams process claims faster, reconcile every remittance, and see exactly where revenue is won or lost: 837 submission, 835 matching, denial management and revenue reporting.</p>
+  </div>
+  <div class="pillars-grid">
+    <div class="pillar" data-reveal>
+      <div class="label"><span class="dot"></span>837 claims</div>
+      <div class="big">Claims Processing</div>
+      <p>Every claim scrubbed and validated against payer rules before it reaches the clearinghouse, cutting rejections before they happen.</p>
+    </div>
+    <div class="pillar" data-reveal>
+      <div class="label"><span class="dot"></span>835 matching</div>
+      <div class="big">Reconciliation</div>
+      <p>Remittances matched to claims automatically, with denials and underpayments flagged the moment they land.</p>
+    </div>
+    <div class="pillar" data-reveal>
+      <div class="label"><span class="dot"></span>Full visibility</div>
+      <div class="big">Revenue Analytics</div>
+      <p>Dashboards on reimbursement, denial trends and payer performance, updated as claims move.</p>
+    </div>
+  </div>
+</section>
+
+<section id="services" class="wrap">
+  <h2 data-reveal>Claims, remittances and revenue, handled end to end</h2>
+  <p data-reveal>Not here to replace your billing team. Here to make their numbers work.</p>
+  <div class="services-grid">
+    <a href="#contact" class="service-card" data-reveal>
+      <div class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6l-6 6 6 6M16 6l6 6-6 6"></path></svg></div>
+      <div class="title">837 Claims Processing</div>
+      <p>Automated claim scrubbing, validation and submission for fewer rejections and faster payer turnaround.</p>
+    </a>
+    <a href="#contact" class="service-card" data-reveal>
+      <div class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18v14H3zM3 10h18M8 5v14"></path></svg></div>
+      <div class="title">835 Remittance Matching</div>
+      <p>Every ERA matched to its claim automatically, with denials and underpayments flagged instantly.</p>
+    </a>
+    <a href="#contact" class="service-card" data-reveal>
+      <div class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18M5 20V10l4-3 4 3 4-5 2 2v13"></path></svg></div>
+      <div class="title">Revenue Analytics</div>
+      <p>Dashboards and reporting on reimbursement rates, denial trends and payer performance.</p>
+    </a>
+    <a href="#contact" class="service-card" data-reveal>
+      <div class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"></path></svg></div>
+      <div class="title">Custom Engineering</div>
+      <p>Backend and frontend development, plus AI systems on RAG, Ollama and vector databases, in Next.js, React, C# and Python. Highly performant code, delivered.</p>
+    </a>
+  </div>
+</section>
+
+<section id="platform" class="wrap">
+  <div class="bento-head">
+    <div data-reveal><div class="eyebrow">Inside the Revenue Analytics Platform</div><h2>Every claim, every remittance, in one system</h2></div>
+    <p data-reveal>837 submission and 835 reconciliation with human oversight where it matters.</p>
+  </div>
+  <div class="bento">
+    <div class="bento-card span2" data-reveal>
+      <div><div class="title">Automated claim scrubbing</div><div class="desc">Every 837 validated against payer rules before submission; billers approve exceptions in one click.</div></div>
+      <div class="ai-note">
+        <div class="who">Claim #48213 · Dr. Alvarez</div>
+        <div class="body">Missing NPI on rendering provider, auto-corrected before submission to Aetna.</div>
+        <div class="actions"><span class="pill-approve">Approve</span><span class="pill-edit">Edit</span></div>
+      </div>
+    </div>
+    <div class="bento-card" data-reveal>
+      <div><div class="title">HIPAA &amp; payer compliant</div><div class="desc">Role-based access and a full audit trail on every claim.</div></div>
+      <div class="bento-stat"><div class="num">100%</div><div class="label">audited actions</div></div>
+    </div>
+    <div class="bento-card" data-reveal>
+      <div><div class="title">Multi-payer support</div><div class="desc">Live claim status and connectivity across your top payers, one source of truth.</div></div>
+      <div class="bento-list">
+        <div class="item"><span>Aetna</span><span class="ok">Connected</span></div>
+        <div class="item"><span>UnitedHealthcare</span><span class="ok">Connected</span></div>
+        <div class="item"><span>Cigna</span><span class="ok">Connected</span></div>
+      </div>
+    </div>
+    <div class="bento-card" data-reveal>
+      <div><div class="title">Clean claim rate</div><div class="desc">Claims accepted on first submission, no resubmission needed.</div></div>
+      <div class="bento-stat"><div class="num">96%</div><div class="label">first-pass acceptance</div></div>
+    </div>
+    <div class="bento-card span2" data-reveal>
+      <div><div class="title">Denial &amp; underpayment alerts</div><div class="desc">Flags denials and underpayments the moment a remittance lands, so nothing slips.</div></div>
+      <div class="bento-list">
+        <div class="item"><span>Claim #4821 · Aetna: missing auth</span><span class="ok">Denied</span></div>
+        <div class="item"><span>Claim #5502 · Cigna: underpaid $340</span><span class="ok">Flagged</span></div>
+        <div class="item"><span>Claim #5588 · UHC: resubmitted</span><span class="ok">Resolved</span></div>
+      </div>
+    </div>
+    <div class="bento-card" data-reveal>
+      <div><div class="title">Works with your clearinghouse</div><div class="desc">Integrates via X12 EDI (837/835), no rip-and-replace.</div></div>
+      <div class="bento-stat"><div class="num">X12</div><div class="label">837 / 835 compliant</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="process" class="wrap">
+  <div class="bento-head">
+    <div data-reveal><div class="eyebrow">How we work</div><h2>From onboarding to live claims</h2></div>
+    <p data-reveal>Secure integration, then processing and reconciliation on every claim.</p>
+  </div>
+  <div class="process-grid">
+    <div class="process-step" data-reveal><div class="n">01</div><div class="title">Discover</div><p>Claims volume, payer mix and current pain points in a working session.</p></div>
+    <div class="process-step" data-reveal><div class="n">02</div><div class="title">Connect</div><p>Secure EDI integration with your PM system, EHR or clearinghouse.</p></div>
+    <div class="process-step" data-reveal><div class="n">03</div><div class="title">Process &amp; reconcile</div><p>Live 837 submission and 835 matching, with denials flagged automatically.</p></div>
+    <div class="process-step" data-reveal><div class="n">04</div><div class="title">Optimize</div><p>Ongoing analytics and support to reduce denials and speed reimbursement.</p></div>
+  </div>
+</section>
+
+<section id="industries" class="wrap">
+  <div class="industries-card">
+    <div class="eyebrow">Who we serve</div>
+    <div class="tag-list">
+      <span>Hospitals</span>
+      <span>Physician groups</span>
+      <span>Billing companies</span>
+      <span>Health plans &amp; payers</span>
+      <span>Ambulatory surgery centers</span>
+      <span>Clearinghouses</span>
+    </div>
+  </div>
+</section>
+
+<section id="faq" class="wrap">
+  <div class="faq-grid">
+    <div data-reveal><div class="eyebrow">Questions</div><h2>Before you get started</h2></div>
+    <div class="faq-list">
+      <details><summary>How do you handle 837 claims and 835 remittances?</summary><p>We ingest your 837 claim files, validate and submit them, then automatically match incoming 835 remittances back to each claim, flagging denials and underpayments as they happen.</p></details>
+      <details><summary>Is this HIPAA compliant?</summary><p>Yes. All claims and remittance data is processed under HIPAA-ready workflows with role-based access and a full audit trail.</p></details>
+      <details><summary>Do you integrate with our clearinghouse or PM system?</summary><p>We integrate via standard X12 EDI (837/835) with most clearinghouses and practice management systems, no rip-and-replace.</p></details>
+      <details><summary>Do you only work on claims and revenue analytics?</summary><p>No. Beyond claims processing and revenue analytics, our engineering team builds custom backend and frontend systems, including AI applications on RAG, Ollama and vector databases, using Next.js, React, C# and Python.</p></details>
+      <details><summary>How fast can we start?</summary><p>Most teams are processing live claims within two to three weeks of onboarding.</p></details>
+    </div>
+  </div>
+</section>
+
+<section id="team" class="wrap">
+  <div class="team-head">
+    <div data-reveal><div class="eyebrow">Our team</div><h2>The people behind modx</h2></div>
+    <p data-reveal>Engineers, architects, project managers and designers, one accountable team on every step.</p>
+  </div>
+  <div class="team-grid">
+    <div class="team-card" data-reveal>
+      <div class="team-photo"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"></path></svg></div>
+      <div class="team-info"><div class="name">Team member 1</div><div class="role">Founder &amp; CEO</div><div class="desc">Business development, payer relations</div></div>
+    </div>
+    <div class="team-card" data-reveal>
+      <div class="team-photo"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"></path></svg></div>
+      <div class="team-info"><div class="name">Team member 2</div><div class="role">Lead Architect</div><div class="desc">Claims engineering &amp; EDI integration</div></div>
+    </div>
+    <div class="team-card" data-reveal>
+      <div class="team-photo"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"></path></svg></div>
+      <div class="team-info"><div class="name">Team member 3</div><div class="role">Project Manager</div><div class="desc">Onboarding, documentation</div></div>
+    </div>
+    <div class="team-card" data-reveal>
+      <div class="team-photo"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"></path></svg></div>
+      <div class="team-info"><div class="name">Team member 4</div><div class="role">Head of Design</div><div class="desc">Product &amp; analytics design</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="product" class="wrap">
+  <div class="product-left" data-reveal>
+    <span class="eyebrow">Revenue Analytics Platform</span>
+    <h2>How claims move through the platform</h2>
+    <p>Built for billing teams: automation does the processing, your staff stays in control of exceptions.</p>
+    <div class="steps">
+      <div class="step-row"><span class="n">01</span><div><div class="title">Capture</div><div class="body">Claims from your PM system or EHR land in one queue as 837s.</div></div></div>
+      <div class="step-row"><span class="n">02</span><div><div class="title">Scrub &amp; submit</div><div class="body">Claims are validated against payer rules and submitted automatically.</div></div></div>
+      <div class="step-row"><span class="n">03</span><div><div class="title">Reconcile</div><div class="body">Incoming 835 remittances are matched to claims, denials flagged for review.</div></div></div>
+      <div class="step-row"><span class="n">04</span><div><div class="title">Report &amp; audit</div><div class="body">Revenue dashboards and a full compliance trail update in real time.</div></div></div>
+    </div>
+  </div>
+  <div class="review-card" data-reveal>
+    <div class="head"><div class="title">Quick review</div><span class="sub">3 claims waiting</span></div>
+    <div class="review-item">
+      <div class="row"><span>Claim #48213 · Aetna</span><span class="ai">835 match</span></div>
+      <div class="body">Paid $412.00 against billed $460.00, a $48 contractual adjustment, no denial.</div>
+    </div>
+    <div class="review-item">
+      <div class="row"><span>Claim #4821 · Cigna</span><span class="flag">Flagged</span></div>
+      <div class="body">Denied, missing prior authorization. Resubmission recommended within 14 days.</div>
+    </div>
+    <div class="review-actions"><span class="solid">Approve all</span><span class="outline">Review one by one</span></div>
+  </div>
+</section>
+
+<section id="contact" class="wrap">
+  <div class="contact-card" data-reveal>
+    <div class="contact-left">
+      <span class="eyebrow">Built for revenue cycle teams</span>
+      <h2>Get clarity on every claim, every remittance, every dollar</h2>
+      <p>Have claims you need processed or reconciled? For immediate support: <a href="mailto:info@techmodx.com">info@techmodx.com</a></p>
+    </div>
+    <form class="contact-form" id="contactForm">
+      <div class="form-row"><input placeholder="Your name" name="name" required><input placeholder="Company" name="company"></div>
+      <div class="form-row"><input placeholder="Work email" type="email" name="email" required><input placeholder="Phone" type="tel" name="phone"></div>
+      <select name="need">
+        <option value="">What do you need?</option>
+        <option>837 Claims Processing</option><option>835 Remittance &amp; Reconciliation</option><option>Revenue Analytics</option>
+        <option>Custom Engineering</option>
+        <option>Platform demo</option>
+      </select>
+      <textarea placeholder="Tell us about your project" name="message" rows="4"></textarea>
+      <button type="submit" class="btn-send">Send message</button>
+      <div class="form-note" id="formNote">Thanks. We'll be in touch shortly.</div>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-card">
+    <div class="footer-cols">
+      <div class="footer-brand">
+        <div class="logo"><span class="mark">x</span>modx</div>
+        <p>Claims processed. Remittances reconciled. Revenue understood. We help healthcare providers and billing teams get paid faster.</p>
+        <div class="footer-socials">
+          <a href="#" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 22v-8h2.7l.4-3.2h-3.1V8.8c0-.9.3-1.6 1.6-1.6h1.7V4.4c-.3 0-1.3-.1-2.5-.1-2.5 0-4.1 1.5-4.1 4.2v2.3H7.4V14h2.8v8h3.3z"></path></svg></a>
+          <a href="#" aria-label="LinkedIn"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.1c.5-1 1.8-2 3.7-2 4 0 4.7 2.6 4.7 6V21h-4v-5.5c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9V21H9z"></path></svg></a>
+          <a href="mailto:info@techmodx.com" aria-label="Email"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path></svg></a>
+        </div>
+      </div>
+      <div class="footer-col"><span class="head">Services</span><a href="#services">837 Claims Processing</a><a href="#services">835 Remittance Matching</a><a href="#services">Revenue Analytics</a><a href="#services">Custom Engineering</a></div>
+      <div class="footer-col"><span class="head">Product</span><a href="#product">Revenue Analytics Platform</a><a href="#platform">Platform</a><a href="#process">How we work</a><a href="#faq">FAQ</a></div>
+      <div class="footer-col"><span class="head">Company</span><a href="#about">About</a><a href="#team">Team</a><a href="#contact">Contact</a><a href="#contact">Support</a></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© Copyright reserved to |x| by techmodx</span>
+      <div class="links"><a href="modxPrivacyPolicy.html">Privacy Policy</a><a href="modxTermsandConditions.html">Terms &amp; Conditions</a></div>
+    </div>
+  </div>
+  <div class="footer-wordmark"><span>MODX</span></div>
+</footer>
+
+<script src="vendor/jquery-3.7.1.min.js"></script>
+<script>
+$(function () {
+  "use strict";
+
+  /* ---- theme toggle ---- */
+  var root = document.documentElement;
+  function applyTheme(t) { root.setAttribute("data-theme", t); }
+  applyTheme(localStorage.getItem("modx-theme-c") || "light");
+  $("#themeToggle").on("click", function () {
+    var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    applyTheme(next);
+    localStorage.setItem("modx-theme-c", next);
+  });
+
+  /* ---- mobile nav ---- */
+  $("#navToggle").on("click", function () {
+    var open = $("#navLinks").toggleClass("is-open").hasClass("is-open");
+    $(this).attr("aria-expanded", open);
+  });
+  $("#navLinks a").on("click", function () {
+    $("#navLinks").removeClass("is-open");
+    $("#navToggle").attr("aria-expanded", false);
+  });
+
+  /* ---- dashboard bar chart ---- */
+  var hs = [30, 45, 38, 60, 52, 70, 64, 80, 58, 90, 76, 100];
+  var $bars = $("#dashBars");
+  hs.forEach(function (v, i) {
+    var o = i === hs.length - 1 ? 1 : 0.35 + i * 0.05;
+    $('<span></span>').css({ height: v + "%", opacity: o }).appendTo($bars);
+  });
+
+  /* ---- scroll reveal ---- */
+  var revealTargets = document.querySelectorAll("[data-reveal]");
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealTargets.forEach(function (el) { io.observe(el); });
+  } else {
+    $(revealTargets).addClass("is-visible");
+  }
+
+  /* ---- contact form (front-end only) ---- */
+  $("#contactForm").on("submit", function (e) {
+    e.preventDefault();
+    $("#formNote").addClass("is-visible");
+    this.reset();
+  });
+
+  /* ---- hero canvas: soft beams + grid (subtly cursor-reactive) ---- */
+  var canvas = document.getElementById("hero-canvas");
+  var heroSection = document.getElementById("top");
+  var ctx = canvas.getContext("2d");
+  var raf;
+
+  var mouseTarget = { x: 0.5, y: 0.35 };
+  var mouseCur = { x: 0.5, y: 0.35 };
+  heroSection.addEventListener("mousemove", function (e) {
+    var r = heroSection.getBoundingClientRect();
+    mouseTarget.x = (e.clientX - r.left) / r.width;
+    mouseTarget.y = (e.clientY - r.top) / r.height;
+  });
+  heroSection.addEventListener("mouseleave", function () {
+    mouseTarget.x = 0.5; mouseTarget.y = 0.35;
+  });
+
+  function draw(t) {
+    var w = canvas.clientWidth, h = canvas.clientHeight;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    if (canvas.width !== w * dpr || canvas.height !== h * dpr) {
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+    }
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+
+    mouseCur.x += (mouseTarget.x - mouseCur.x) * 0.04;
+    mouseCur.y += (mouseTarget.y - mouseCur.y) * 0.04;
+
+    var s = t * 0.0003;
+    var drift = (mouseCur.x - 0.5) * w * 0.05;
+    for (var i = 0; i < 3; i++) {
+      var x = w * (0.2 + i * 0.3) + Math.sin(s + i * 2) * w * 0.08 + drift;
+      var g = ctx.createLinearGradient(x - 200, 0, x + 200, 0);
+      g.addColorStop(0, "rgba(155,227,184,0)");
+      g.addColorStop(0.5, "rgba(155,227,184," + (0.10 + 0.05 * Math.sin(s * 1.5 + i)) + ")");
+      g.addColorStop(1, "rgba(155,227,184,0)");
+      ctx.fillStyle = g;
+      ctx.fillRect(x - 200, 0, 400, h);
+    }
+
+    var spot = ctx.createRadialGradient(
+      mouseCur.x * w, mouseCur.y * h, 0,
+      mouseCur.x * w, mouseCur.y * h, Math.max(w, h) * 0.32
+    );
+    spot.addColorStop(0, "rgba(155,227,184,.10)");
+    spot.addColorStop(1, "rgba(155,227,184,0)");
+    ctx.fillStyle = spot;
+    ctx.fillRect(0, 0, w, h);
+
+    ctx.strokeStyle = "rgba(255,255,255,.05)";
+    ctx.lineWidth = 1;
+    for (var x2 = 0; x2 < w; x2 += 72) { ctx.beginPath(); ctx.moveTo(x2, 0); ctx.lineTo(x2, h); ctx.stroke(); }
+    for (var y2 = 0; y2 < h; y2 += 72) { ctx.beginPath(); ctx.moveTo(0, y2); ctx.lineTo(w, y2); ctx.stroke(); }
+
+    var fade = ctx.createLinearGradient(0, 0, 0, h);
+    fade.addColorStop(0, "rgba(11,59,42,0)");
+    fade.addColorStop(1, "rgba(11,59,42,.9)");
+    ctx.fillStyle = fade;
+    ctx.fillRect(0, 0, w, h);
+
+    raf = requestAnimationFrame(draw);
+  }
+  raf = requestAnimationFrame(draw);
+
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduceMotion) {
+    cancelAnimationFrame(raf);
+    draw(0);
+  }
+});
+</script>
+</body>
+</html>
