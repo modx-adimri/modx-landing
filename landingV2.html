@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MODX: Claims processed. Revenue understood.</title>
-<meta name="description" content="MODX processes 837 healthcare claims, reconciles 835 remittances, and turns the results into revenue analytics for providers and billing teams.">
+<title>MODX: IT experts in healthcare</title>
+<meta name="description" content="MODX is a team of IT experts in the healthcare domain, helping organizations build the software they need. Our Revenue Analytics Platform is one of our own products.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,300..800&family=Google+Sans+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -125,28 +125,48 @@
   .service-card .title{font-size:17px;font-weight:600}
   .service-card p{margin:0;color:var(--fg2);font-size:14px;line-height:1.55}
 
+  /* ---------- AI section ---------- */
+  #ai{padding:110px 0 0}
+  .ai-card{position:relative;overflow:hidden;border-radius:24px;background:linear-gradient(160deg,var(--hero),#04120C);color:#fff;padding:64px 48px}
+  #ai-canvas{position:absolute;inset:0;z-index:0;width:100%;height:100%;display:block;opacity:.8}
+  .ai-inner{position:relative;z-index:2}
+  .ai-head{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:end;margin-bottom:48px}
+  .ai-head .eyebrow{font-family:"Google Sans Code",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--lime);margin-bottom:12px}
+  .ai-head h2{font-size:clamp(30px,3.6vw,46px);line-height:1.08;text-wrap:balance;color:#fff}
+  .ai-head p{margin:0;color:rgba(255,255,255,.65);font-size:15px;line-height:1.65;max-width:420px}
+  .ai-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.12);border-radius:16px;overflow:hidden}
+  .ai-item{background:rgba(6,20,14,.7);backdrop-filter:blur(6px);padding:26px 24px;display:flex;flex-direction:column;gap:12px}
+  .ai-item .n{font-family:"Google Sans Code",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--lime)}
+  .ai-item .title{font-size:16px;font-weight:600;color:#fff}
+  .ai-item p{margin:0;font-size:13px;line-height:1.6;color:rgba(255,255,255,.65)}
+
   /* ---------- bento ---------- */
   #platform{padding:110px 0 0}
   .bento-head{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:end}
   .bento-head .eyebrow{font-size:13px;color:var(--green-ink);font-weight:600;margin-bottom:12px}
   .bento-head h2{font-size:clamp(30px,3.6vw,44px);line-height:1.08;text-wrap:balance}
   .bento-head p{margin:0;color:var(--fg2);font-size:15px;line-height:1.65;max-width:440px}
-  .bento{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:40px}
-  .bento-card{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:22px;display:flex;flex-direction:column;justify-content:space-between;gap:20px;min-height:230px}
+  .bento{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:40px}
+  .bento-card{border-radius:24px;background:var(--panel);overflow:hidden;display:flex;flex-direction:column;
+    box-shadow:0 1px 2px rgba(16,21,19,.04),0 12px 28px -14px rgba(16,21,19,.16);
+    transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s}
+  .bento-card:hover{transform:translateY(-3px);box-shadow:0 2px 6px rgba(16,21,19,.06),0 20px 40px -16px rgba(16,21,19,.22)}
+  [data-theme="dark"] .bento-card{box-shadow:0 0 0 1px rgba(255,255,255,.06),0 12px 28px -14px rgba(0,0,0,.5)}
+  [data-theme="dark"] .bento-card:hover{box-shadow:0 0 0 1px rgba(255,255,255,.1),0 20px 40px -16px rgba(0,0,0,.6)}
   .bento-card.span2{grid-column:span 2}
-  .bento-card .title{font-size:17px;font-weight:600}
-  .bento-card .desc{font-size:13px;color:var(--fg2);line-height:1.6;margin-top:6px}
+  .bento-content{padding:22px 24px 26px;display:flex;flex-direction:column;gap:14px;flex:1}
+  .work-thumb{position:relative;height:172px;overflow:hidden;flex-shrink:0;
+    background:linear-gradient(135deg,var(--mint),var(--panel));
+    display:flex;align-items:center;justify-content:center}
+  .work-thumb-label{font-family:"Google Sans Code",monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--green-ink);opacity:.55}
+  .work-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+  .bento-card .title{font-size:18px;font-weight:600;letter-spacing:-.01em}
+  .bento-card .desc{font-size:13px;color:var(--fg2);line-height:1.6}
   .bento-stat .num{font-size:40px;font-weight:600;letter-spacing:-.03em;line-height:1;color:var(--green-ink)}
   .bento-stat .label{font-size:12px;color:var(--fg2);margin-top:6px}
   .bento-list{display:flex;flex-direction:column;gap:6px}
   .bento-list .item{display:flex;justify-content:space-between;padding:8px 0;border-top:1px solid var(--line);font-size:13px}
   .bento-list .item span.ok{color:var(--green-ink);font-size:12px;font-weight:500}
-  .ai-note{border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px;font-size:12px;background:var(--mint)}
-  .ai-note .who{color:var(--green-ink);font-weight:600;font-size:12px}
-  .ai-note .body{line-height:1.55}
-  .ai-note .actions{display:flex;gap:6px}
-  .pill-approve{padding:6px 11px;border-radius:8px;background:var(--green);color:#fff;font-weight:600;font-size:11px}
-  .pill-edit{padding:6px 11px;border-radius:8px;border:1px solid var(--line);font-size:11px;background:var(--panel)}
 
   /* ---------- process ---------- */
   #process{padding:110px 0 0}
@@ -257,10 +277,11 @@
     .nav-links.is-open{display:flex}
     .nav-links a{padding:12px 0;border-top:1px solid rgba(255,255,255,.15)}
     .nav-toggle{display:flex}
-    .about-grid,.bento-head,.team-head,.faq-grid,#product,.contact-card{grid-template-columns:1fr}
+    .about-grid,.bento-head,.team-head,.faq-grid,#product,.contact-card,.ai-head{grid-template-columns:1fr}
     .pillars-grid,.services-grid,.process-grid{grid-template-columns:1fr}
     .bento{grid-template-columns:1fr 1fr}
     .bento-card.span2{grid-column:span 2}
+    .ai-grid{grid-template-columns:1fr 1fr}
     .team-grid{grid-template-columns:1fr 1fr}
     .dash{grid-template-columns:1fr}
     .dash-side{display:none}
@@ -270,6 +291,9 @@
     .dash-stats{grid-template-columns:1fr}
     .bento{grid-template-columns:1fr}
     .bento-card.span2{grid-column:span 1}
+    .work-thumb{height:200px}
+    .ai-grid{grid-template-columns:1fr}
+    .ai-card{padding:40px 24px}
     .team-grid{grid-template-columns:1fr}
     .footer-cols{grid-template-columns:1fr}
     .form-row{grid-template-columns:1fr}
@@ -289,6 +313,8 @@
       <div class="nav-links" id="navLinks">
         <a href="#about">About</a>
         <a href="#services">Services</a>
+        <a href="#platform">Our Work</a>
+        <a href="#ai">AI</a>
         <a href="#product">Platform</a>
         <a href="#team">Team</a>
         <a href="#contact">Contact</a>
@@ -309,12 +335,12 @@
   </header>
 
   <div class="hero-inner">
-    <div class="hero-tags"><span>837 claims</span><span>·</span><span>835 remittance</span><span>·</span><span>Revenue analytics</span></div>
-    <h1>Claims processed.<br>Revenue <em>understood.</em></h1>
-    <p>We process your 837 claims, reconcile 835 remittances, and turn the results into clear revenue analytics, so your team spends less time chasing payments.</p>
+    <div class="hero-tags"><span>Custom software</span><span>·</span><span>Systems integration</span><span>·</span><span>Our own products</span></div>
+    <h1>Your IT team,<br>fluent in <em>healthcare.</em></h1>
+    <p>We're a team of software engineers and architects who specialize in the healthcare domain, helping organizations build the IT they need: patient apps, scheduling, integrations and more. Our Revenue Analytics Platform is one product we've built ourselves.</p>
     <div class="hero-ctas">
-      <a href="#contact" class="hero-cta-primary">Book a demo</a>
-      <a href="#product" class="hero-cta-secondary">See the platform</a>
+      <a href="#contact" class="hero-cta-primary">Talk to our team</a>
+      <a href="#platform" class="hero-cta-secondary">See our work</a>
     </div>
   </div>
 
@@ -354,46 +380,46 @@
 
 <section id="about" class="wrap">
   <div class="about-grid">
-    <h2 data-reveal>We turn claims data into revenue clarity</h2>
-    <p data-reveal>We help healthcare providers and billing teams process claims faster, reconcile every remittance, and see exactly where revenue is won or lost: 837 submission, 835 matching, denial management and revenue reporting.</p>
+    <h2 data-reveal>We help healthcare organizations build the right IT</h2>
+    <p data-reveal>Software engineers and architects who specialize in the healthcare domain, so you don't have to explain HIPAA, EDI or payer workflows twice. We build the solution you need, and we build our own products too, as proof of what we can do.</p>
   </div>
   <div class="pillars-grid">
     <div class="pillar" data-reveal>
-      <div class="label"><span class="dot"></span>837 claims</div>
-      <div class="big">Claims Processing</div>
-      <p>Every claim scrubbed and validated against payer rules before it reaches the clearinghouse, cutting rejections before they happen.</p>
+      <div class="label"><span class="dot"></span>Built for you</div>
+      <div class="big">Custom Development</div>
+      <p>Patient apps, scheduling tools and care coordination platforms, engineered around your workflow, not a generic template.</p>
     </div>
     <div class="pillar" data-reveal>
-      <div class="label"><span class="dot"></span>835 matching</div>
-      <div class="big">Reconciliation</div>
-      <p>Remittances matched to claims automatically, with denials and underpayments flagged the moment they land.</p>
+      <div class="label"><span class="dot"></span>Fits your stack</div>
+      <div class="big">Systems Integration</div>
+      <p>EHR, clearinghouse and payer integrations that connect what you already have, no rip-and-replace.</p>
     </div>
     <div class="pillar" data-reveal>
-      <div class="label"><span class="dot"></span>Full visibility</div>
-      <div class="big">Revenue Analytics</div>
-      <p>Dashboards on reimbursement, denial trends and payer performance, updated as claims move.</p>
+      <div class="label"><span class="dot"></span>Proof, not promises</div>
+      <div class="big">Our Own Products</div>
+      <p>Revenue Analytics Platform, our 837/835 claims engine, is one of the things we've built and run ourselves.</p>
     </div>
   </div>
 </section>
 
 <section id="services" class="wrap">
-  <h2 data-reveal>Claims, remittances and revenue, handled end to end</h2>
-  <p data-reveal>Not here to replace your billing team. Here to make their numbers work.</p>
+  <h2 data-reveal>The IT team healthcare organizations bring in to build</h2>
+  <p data-reveal>Not here to replace your internal team. Here to build what they don't have time for.</p>
   <div class="services-grid">
     <a href="#contact" class="service-card" data-reveal>
-      <div class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6l-6 6 6 6M16 6l6 6-6 6"></path></svg></div>
-      <div class="title">837 Claims Processing</div>
-      <p>Automated claim scrubbing, validation and submission for fewer rejections and faster payer turnaround.</p>
-    </a>
-    <a href="#contact" class="service-card" data-reveal>
       <div class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18v14H3zM3 10h18M8 5v14"></path></svg></div>
-      <div class="title">835 Remittance Matching</div>
-      <p>Every ERA matched to its claim automatically, with denials and underpayments flagged instantly.</p>
+      <div class="title">Healthcare Software Development</div>
+      <p>Custom patient apps, provider tools and internal systems, engineered around your workflows.</p>
     </a>
     <a href="#contact" class="service-card" data-reveal>
       <div class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18M5 20V10l4-3 4 3 4-5 2 2v13"></path></svg></div>
-      <div class="title">Revenue Analytics</div>
-      <p>Dashboards and reporting on reimbursement rates, denial trends and payer performance.</p>
+      <div class="title">Systems &amp; EDI Integration</div>
+      <p>Connect your EHR, clearinghouse and payer systems, including 837 claims and 835 remittance processing.</p>
+    </a>
+    <a href="#contact" class="service-card" data-reveal>
+      <div class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5z"></path></svg></div>
+      <div class="title">Data &amp; Revenue Analytics</div>
+      <p>Dashboards and reporting that turn your operational and claims data into decisions.</p>
     </a>
     <a href="#contact" class="service-card" data-reveal>
       <div class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"></path></svg></div>
@@ -405,45 +431,93 @@
 
 <section id="platform" class="wrap">
   <div class="bento-head">
-    <div data-reveal><div class="eyebrow">Inside the Revenue Analytics Platform</div><h2>Every claim, every remittance, in one system</h2></div>
-    <p data-reveal>837 submission and 835 reconciliation with human oversight where it matters.</p>
+    <div data-reveal><div class="eyebrow">Our work</div><h2>Solutions we've built for the healthcare industry</h2></div>
+    <p data-reveal>A sample of the products and platforms we've shipped, including our own.</p>
   </div>
   <div class="bento">
     <div class="bento-card span2" data-reveal>
-      <div><div class="title">Automated claim scrubbing</div><div class="desc">Every 837 validated against payer rules before submission; billers approve exceptions in one click.</div></div>
-      <div class="ai-note">
-        <div class="who">Claim #48213 · Dr. Alvarez</div>
-        <div class="body">Missing NPI on rendering provider, auto-corrected before submission to Aetna.</div>
-        <div class="actions"><span class="pill-approve">Approve</span><span class="pill-edit">Edit</span></div>
+      <div class="work-thumb"><span class="work-thumb-label">Screenshot</span><img src="images/work/medpad.jpg" alt="MedPad screenshot" onerror="this.style.display='none'"></div>
+      <div class="bento-content">
+        <div><div class="title">MedPad</div><div class="desc">A bedside patient engagement tablet experience, putting care instructions, entertainment and communication in patients' hands.</div></div>
+        <div class="bento-list">
+          <div class="item"><span>Care plans</span><span class="ok">Live</span></div>
+          <div class="item"><span>Entertainment</span><span class="ok">Live</span></div>
+          <div class="item"><span>Secure messaging</span><span class="ok">Live</span></div>
+        </div>
       </div>
     </div>
     <div class="bento-card" data-reveal>
-      <div><div class="title">HIPAA &amp; payer compliant</div><div class="desc">Role-based access and a full audit trail on every claim.</div></div>
-      <div class="bento-stat"><div class="num">100%</div><div class="label">audited actions</div></div>
-    </div>
-    <div class="bento-card" data-reveal>
-      <div><div class="title">Multi-payer support</div><div class="desc">Live claim status and connectivity across your top payers, one source of truth.</div></div>
-      <div class="bento-list">
-        <div class="item"><span>Aetna</span><span class="ok">Connected</span></div>
-        <div class="item"><span>UnitedHealthcare</span><span class="ok">Connected</span></div>
-        <div class="item"><span>Cigna</span><span class="ok">Connected</span></div>
+      <div class="work-thumb"><span class="work-thumb-label">Screenshot</span><img src="images/work/charity-app.jpg" alt="Charity App screenshot" onerror="this.style.display='none'"></div>
+      <div class="bento-content">
+        <div><div class="title">Charity App</div><div class="desc">A donation and volunteer coordination app for a healthcare charity, from giving to volunteer scheduling.</div></div>
+        <div class="bento-stat"><div class="num">$128K</div><div class="label">raised this year</div></div>
       </div>
     </div>
     <div class="bento-card" data-reveal>
-      <div><div class="title">Clean claim rate</div><div class="desc">Claims accepted on first submission, no resubmission needed.</div></div>
-      <div class="bento-stat"><div class="num">96%</div><div class="label">first-pass acceptance</div></div>
+      <div class="work-thumb"><span class="work-thumb-label">Screenshot</span><img src="images/work/physician-scheduling.jpg" alt="Physician Scheduling screenshot" onerror="this.style.display='none'"></div>
+      <div class="bento-content">
+        <div><div class="title">Physician Scheduling</div><div class="desc">A scheduling platform for physician groups, balancing coverage, call schedules and time-off automatically.</div></div>
+        <div class="bento-stat"><div class="num">32</div><div class="label">providers scheduled</div></div>
+      </div>
+    </div>
+    <div class="bento-card" data-reveal>
+      <div class="work-thumb"><span class="work-thumb-label">Screenshot</span><img src="images/work/cva.jpg" alt="CVA screenshot" onerror="this.style.display='none'"></div>
+      <div class="bento-content">
+        <div><div class="title">CVA</div><div class="desc">A stroke care coordination platform, tracking patients from arrival through rehab and follow-up.</div></div>
+        <div class="bento-stat"><div class="num">18 min</div><div class="label">average door-to-needle time</div></div>
+      </div>
+    </div>
+    <div class="bento-card" data-reveal>
+      <div class="work-thumb"><span class="work-thumb-label">Screenshot</span><img src="images/work/mha.jpg" alt="MHA screenshot" onerror="this.style.display='none'"></div>
+      <div class="bento-content">
+        <div><div class="title">MHA</div><div class="desc">A mental health assessment and intake app, streamlining screening for behavioral health providers.</div></div>
+        <div class="bento-stat"><div class="num">2,400</div><div class="label">assessments completed</div></div>
+      </div>
     </div>
     <div class="bento-card span2" data-reveal>
-      <div><div class="title">Denial &amp; underpayment alerts</div><div class="desc">Flags denials and underpayments the moment a remittance lands, so nothing slips.</div></div>
-      <div class="bento-list">
-        <div class="item"><span>Claim #4821 · Aetna: missing auth</span><span class="ok">Denied</span></div>
-        <div class="item"><span>Claim #5502 · Cigna: underpaid $340</span><span class="ok">Flagged</span></div>
-        <div class="item"><span>Claim #5588 · UHC: resubmitted</span><span class="ok">Resolved</span></div>
+      <div class="work-thumb"><span class="work-thumb-label">Screenshot</span><img src="images/work/revenue-analytics.jpg" alt="Revenue Analytics Platform screenshot" onerror="this.style.display='none'"></div>
+      <div class="bento-content">
+        <div><div class="title">Revenue Analytics Platform</div><div class="desc">Our own 837 claims and 835 remittance engine, matching payments and flagging denials automatically.</div></div>
+        <div class="bento-list">
+          <div class="item"><span>Aetna</span><span class="ok">Connected</span></div>
+          <div class="item"><span>UnitedHealthcare</span><span class="ok">Connected</span></div>
+          <div class="item"><span>Cigna</span><span class="ok">Connected</span></div>
+        </div>
       </div>
     </div>
-    <div class="bento-card" data-reveal>
-      <div><div class="title">Works with your clearinghouse</div><div class="desc">Integrates via X12 EDI (837/835), no rip-and-replace.</div></div>
-      <div class="bento-stat"><div class="num">X12</div><div class="label">837 / 835 compliant</div></div>
+  </div>
+</section>
+
+<section id="ai" class="wrap">
+  <div class="ai-card" data-reveal>
+    <canvas id="ai-canvas"></canvas>
+    <div class="ai-inner">
+      <div class="ai-head">
+        <div><div class="eyebrow">Applied AI</div><h2>AI built into what we ship, not bolted on after</h2></div>
+        <p>Retrieval-augmented generation, local models and vector search, applied to real healthcare workflows.</p>
+      </div>
+      <div class="ai-grid">
+        <div class="ai-item">
+          <span class="n">01</span>
+          <div class="title">Retrieval-Augmented Generation</div>
+          <p>We ground LLM responses in your own clinical and operational data, so answers stay accurate and current.</p>
+        </div>
+        <div class="ai-item">
+          <span class="n">02</span>
+          <div class="title">Local, Private Models</div>
+          <p>Run models on Ollama, on your own infrastructure, when patient data can't leave the building.</p>
+        </div>
+        <div class="ai-item">
+          <span class="n">03</span>
+          <div class="title">Vector Search</div>
+          <p>Semantic search across records, documents and knowledge bases, built on vector databases.</p>
+        </div>
+        <div class="ai-item">
+          <span class="n">04</span>
+          <div class="title">Embedded, Not Bolted On</div>
+          <p>Applied where it saves real time: claims triage, documentation and intake, not just a chatbot widget.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -482,7 +556,7 @@
       <details><summary>How do you handle 837 claims and 835 remittances?</summary><p>We ingest your 837 claim files, validate and submit them, then automatically match incoming 835 remittances back to each claim, flagging denials and underpayments as they happen.</p></details>
       <details><summary>Is this HIPAA compliant?</summary><p>Yes. All claims and remittance data is processed under HIPAA-ready workflows with role-based access and a full audit trail.</p></details>
       <details><summary>Do you integrate with our clearinghouse or PM system?</summary><p>We integrate via standard X12 EDI (837/835) with most clearinghouses and practice management systems, no rip-and-replace.</p></details>
-      <details><summary>Do you only work on claims and revenue analytics?</summary><p>No. Beyond claims processing and revenue analytics, our engineering team builds custom backend and frontend systems, including AI applications on RAG, Ollama and vector databases, using Next.js, React, C# and Python.</p></details>
+      <details><summary>Do you only work on claims and revenue analytics?</summary><p>No. We're primarily a team of IT experts in the healthcare domain. Revenue Analytics is one product we've built ourselves, alongside custom software for scheduling, patient engagement, care coordination and more, using Next.js, React, C#, Python and AI on RAG, Ollama and vector databases.</p></details>
       <details><summary>How fast can we start?</summary><p>Most teams are processing live claims within two to three weeks of onboarding.</p></details>
     </div>
   </div>
@@ -515,8 +589,8 @@
 
 <section id="product" class="wrap">
   <div class="product-left" data-reveal>
-    <span class="eyebrow">Revenue Analytics Platform</span>
-    <h2>How claims move through the platform</h2>
+    <span class="eyebrow">One of our own products</span>
+    <h2>Inside our Revenue Analytics Platform</h2>
     <p>Built for billing teams: automation does the processing, your staff stays in control of exceptions.</p>
     <div class="steps">
       <div class="step-row"><span class="n">01</span><div><div class="title">Capture</div><div class="body">Claims from your PM system or EHR land in one queue as 837s.</div></div></div>
@@ -542,18 +616,18 @@
 <section id="contact" class="wrap">
   <div class="contact-card" data-reveal>
     <div class="contact-left">
-      <span class="eyebrow">Built for revenue cycle teams</span>
-      <h2>Get clarity on every claim, every remittance, every dollar</h2>
-      <p>Have claims you need processed or reconciled? For immediate support: <a href="mailto:info@techmodx.com">info@techmodx.com</a></p>
+      <span class="eyebrow">IT experts in healthcare</span>
+      <h2>Tell us what you're trying to build</h2>
+      <p>Have a healthcare IT project in mind? For immediate support: <a href="mailto:info@techmodx.com">info@techmodx.com</a></p>
     </div>
     <form class="contact-form" id="contactForm">
       <div class="form-row"><input placeholder="Your name" name="name" required><input placeholder="Company" name="company"></div>
       <div class="form-row"><input placeholder="Work email" type="email" name="email" required><input placeholder="Phone" type="tel" name="phone"></div>
       <select name="need">
         <option value="">What do you need?</option>
-        <option>837 Claims Processing</option><option>835 Remittance &amp; Reconciliation</option><option>Revenue Analytics</option>
+        <option>Healthcare Software Development</option><option>Systems &amp; EDI Integration</option><option>Data &amp; Revenue Analytics</option>
         <option>Custom Engineering</option>
-        <option>Platform demo</option>
+        <option>Revenue Analytics Platform demo</option>
       </select>
       <textarea placeholder="Tell us about your project" name="message" rows="4"></textarea>
       <button type="submit" class="btn-send">Send message</button>
@@ -567,15 +641,15 @@
     <div class="footer-cols">
       <div class="footer-brand">
         <div class="logo"><span class="mark">x</span>modx</div>
-        <p>Claims processed. Remittances reconciled. Revenue understood. We help healthcare providers and billing teams get paid faster.</p>
+        <p>A team of IT experts in the healthcare domain. We help organizations build the software they need, and we build our own products too.</p>
         <div class="footer-socials">
           <a href="#" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 22v-8h2.7l.4-3.2h-3.1V8.8c0-.9.3-1.6 1.6-1.6h1.7V4.4c-.3 0-1.3-.1-2.5-.1-2.5 0-4.1 1.5-4.1 4.2v2.3H7.4V14h2.8v8h3.3z"></path></svg></a>
           <a href="#" aria-label="LinkedIn"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.1c.5-1 1.8-2 3.7-2 4 0 4.7 2.6 4.7 6V21h-4v-5.5c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9V21H9z"></path></svg></a>
           <a href="mailto:info@techmodx.com" aria-label="Email"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path></svg></a>
         </div>
       </div>
-      <div class="footer-col"><span class="head">Services</span><a href="#services">837 Claims Processing</a><a href="#services">835 Remittance Matching</a><a href="#services">Revenue Analytics</a><a href="#services">Custom Engineering</a></div>
-      <div class="footer-col"><span class="head">Product</span><a href="#product">Revenue Analytics Platform</a><a href="#platform">Platform</a><a href="#process">How we work</a><a href="#faq">FAQ</a></div>
+      <div class="footer-col"><span class="head">Services</span><a href="#services">Healthcare Software Development</a><a href="#services">Systems &amp; EDI Integration</a><a href="#services">Data &amp; Revenue Analytics</a><a href="#services">Custom Engineering</a></div>
+      <div class="footer-col"><span class="head">Product</span><a href="#platform">Our Work</a><a href="#ai">AI</a><a href="#product">Revenue Analytics Platform</a><a href="#process">How we work</a><a href="#faq">FAQ</a></div>
       <div class="footer-col"><span class="head">Company</span><a href="#about">About</a><a href="#team">Team</a><a href="#contact">Contact</a><a href="#contact">Support</a></div>
     </div>
     <div class="footer-bottom">
@@ -712,6 +786,63 @@ $(function () {
   if (reduceMotion) {
     cancelAnimationFrame(raf);
     draw(0);
+  }
+
+  /* ---- AI section canvas: futuristic grid + scan pulses ---- */
+  var aiCanvas = document.getElementById("ai-canvas");
+  if (aiCanvas) {
+    var aiCtx = aiCanvas.getContext("2d");
+    var aiRaf, aiStep = 40, aiBlips = [];
+
+    function aiDraw(t) {
+      var w = aiCanvas.clientWidth, h = aiCanvas.clientHeight;
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      if (aiCanvas.width !== w * dpr || aiCanvas.height !== h * dpr) {
+        aiCanvas.width = w * dpr;
+        aiCanvas.height = h * dpr;
+      }
+      aiCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      aiCtx.clearRect(0, 0, w, h);
+
+      aiCtx.strokeStyle = "rgba(155,227,184,.08)";
+      aiCtx.lineWidth = 1;
+      for (var x = 0; x < w; x += aiStep) { aiCtx.beginPath(); aiCtx.moveTo(x, 0); aiCtx.lineTo(x, h); aiCtx.stroke(); }
+      for (var y = 0; y < h; y += aiStep) { aiCtx.beginPath(); aiCtx.moveTo(0, y); aiCtx.lineTo(w, y); aiCtx.stroke(); }
+
+      var scanY = ((t * 0.05) % (h + 200)) - 100;
+      var scan = aiCtx.createLinearGradient(0, scanY - 60, 0, scanY + 60);
+      scan.addColorStop(0, "rgba(155,227,184,0)");
+      scan.addColorStop(0.5, "rgba(155,227,184,.12)");
+      scan.addColorStop(1, "rgba(155,227,184,0)");
+      aiCtx.fillStyle = scan;
+      aiCtx.fillRect(0, scanY - 60, w, 120);
+
+      if (Math.random() < 0.06) {
+        var cols = Math.floor(w / aiStep), rows = Math.floor(h / aiStep);
+        aiBlips.push({
+          x: Math.floor(Math.random() * cols) * aiStep,
+          y: Math.floor(Math.random() * rows) * aiStep,
+          born: t
+        });
+      }
+      aiBlips = aiBlips.filter(function (b) { return t - b.born < 1200; });
+      aiBlips.forEach(function (b) {
+        var age = (t - b.born) / 1200;
+        var alpha = Math.sin(age * Math.PI) * 0.8;
+        aiCtx.fillStyle = "rgba(155,227,184," + alpha + ")";
+        aiCtx.beginPath();
+        aiCtx.arc(b.x, b.y, 2.5 + age * 3, 0, Math.PI * 2);
+        aiCtx.fill();
+      });
+
+      aiRaf = requestAnimationFrame(aiDraw);
+    }
+    aiRaf = requestAnimationFrame(aiDraw);
+
+    if (reduceMotion) {
+      cancelAnimationFrame(aiRaf);
+      aiDraw(0);
+    }
   }
 });
 </script>
