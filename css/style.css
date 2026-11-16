@@ -212,9 +212,7 @@ header.site-header nav{max-width:1060px;margin:0 auto;padding:8px 8px 8px 16px;d
 .faq-list summary::-webkit-details-marker{display:none}
 .faq-list p{margin:12px 0 0;color:var(--fg2);font-size:14px;line-height:1.6;max-width:560px}
 
-/* ==========================================================================
-   TEAM
-   ========================================================================== */
+/* TEAM (disabled pending real names/photos/bios)
 #team{padding:110px 0 0}
 .team-head{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:end}
 .team-head .eyebrow{font-size:13px;color:var(--green-ink);font-weight:600;margin-bottom:12px}
@@ -228,9 +226,10 @@ header.site-header nav{max-width:1060px;margin:0 auto;padding:8px 8px 8px 16px;d
 .team-info .name{font-size:16px;font-weight:600}
 .team-info .role{font-size:13px;color:var(--green-ink)}
 .team-info .desc{font-size:13px;color:var(--fg2)}
+*/
 
 /* ==========================================================================
-   PRODUCT (Revenue Analytics Platform deep-dive)
+   PRODUCT (MHA deep-dive)
    ========================================================================== */
 #product{padding:110px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
 .product-left{display:flex;flex-direction:column;gap:18px}
@@ -307,15 +306,16 @@ footer{max-width:1060px;margin:24px auto 0;padding:0 24px}
   .nav-links.is-open{display:flex}
   .nav-links a{padding:12px 0;border-top:1px solid rgba(255,255,255,.15)}
   .nav-toggle{display:flex}
-  .about-grid,.bento-head,.team-head,.faq-grid,#product,.contact-card,.ai-head{grid-template-columns:1fr}
+  .about-grid,.bento-head,.faq-grid,#product,.contact-card,.ai-head{grid-template-columns:1fr}
   .pillars-grid,.services-grid,.process-grid{grid-template-columns:1fr}
   .bento{grid-template-columns:1fr 1fr}
   .bento-card.span2{grid-column:span 2}
   .ai-grid{grid-template-columns:1fr 1fr}
-  .team-grid{grid-template-columns:1fr 1fr}
   .dash{grid-template-columns:1fr}
   .dash-side{display:none}
   .footer-cols{grid-template-columns:1fr 1fr}
+  /* .team-head{grid-template-columns:1fr} */
+  /* .team-grid{grid-template-columns:1fr 1fr} */
 }
 @media (max-width:560px){
   .dash-stats{grid-template-columns:1fr}
@@ -324,7 +324,7 @@ footer{max-width:1060px;margin:24px auto 0;padding:0 24px}
   .work-thumb{height:200px}
   .ai-grid{grid-template-columns:1fr}
   .ai-card{padding:40px 24px}
-  .team-grid{grid-template-columns:1fr}
+  /* .team-grid{grid-template-columns:1fr} */
   .footer-cols{grid-template-columns:1fr}
   .form-row{grid-template-columns:1fr}
   .contact-card{padding:40px 24px}
